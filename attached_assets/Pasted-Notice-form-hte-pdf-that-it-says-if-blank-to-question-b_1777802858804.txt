@@ -1,0 +1,603 @@
+Notice form hte pdf, that it says ' if [blank] to question [blank], answer.
+
+For example, domain1, variantB
+1.1 Did the authors use an analysis method that was
+appropriate to control for time-varying as well as baseline
+confounding?
+1.2 If Y/PY to 1.1: Did the authors control for all the
+important baseline and time-varying confounding factors
+for which this was necessary?
+1.3 If Y/PY/WN to 1.2: Were confounding factors that were
+controlled for (and for which control was necessary)
+measured validly and reliably by the variables available in
+this study?
+1.4 If N/PN/NI to 1.1: Did the authors control for time-
+varying factors or other variables measured after the start
+of intervention?
+1.5 Did the use of negative controls, or other
+considerations, suggest serious uncontrolled confounding?
+
+This can translate as.
+1.1 =Y/PY -> 1.2
+1.2=Y/PY -> 1.3
+1.2=WN -> 1.3
+1.2=SN/NI -> 1.5
+
+1.2 = N/PN/NI -> 1.4
+1.4=N/PN/NI -> 1.5
+1.5=N/PN -> SERIOUS RoB
+1.4=Y/PY -> CRITICAL RoB
+_---------------
+
+I can keep going but, the gist is, each path is unique, but the same Q can appear in multiple paths.
+e.g., see how we get to 1.3 from 2 different paths, and the 2 paths we can take AFTER 1.3 differ depending on where we agme from?
+
+What data structure is best for this?
+its not binary because, from each question, it's usually at least 3 paths you can take.
+
+Is this graph?
+
+How do i organize this?
+We need to parse the user's request. They're pointing out that the ROBINS-I tool's signaling questions have complex conditional branching. They provided a snippet from Domain 1 Variant B, showing that questions have prerequisite conditions (e.g., "If Y/PY to 1.1: did the authors...") and that after answering, different subsequent questions become relevant. They ask: "What data structure is best for this? its not binary because, from each question, it's usually at least 3 paths you can take. Is this graph? How do i organize this?"
+
+The user is not asking for the actual decision tree logic for risk of bias judgments (that we already discussed as missing). They're asking about a data structure to represent the conditional flow of the form: which questions appear based on answers to previous questions. This is a form logic problem, not just an algorithm problem. So I need to propose a data structure to capture the dependencies between questions (prerequisites, branching) and how to implement that in the web app.
+
+The user's example:
+
+1.1 (answer determines next question)
+
+If Y/PY -> 1.2
+
+If N/PN/NI -> 1.4
+
+Possibly also other answers?
+
+Then 1.2 (if appear) leads to further branches based on its answer. So it's like a directed acyclic graph where each question node has answer-dependent edges to other question nodes. But some edges lead to the same question (1.3 can be reached from two different answer paths of 1.2). So it's a finite state machine where the "state" includes the set of answered questions and their values.
+
+The user asks: "Is this graph? How do i organize this?" I need to suggest a practical representation for building the UI that can dynamically show/hide questions and enforce the logic. This will be used in the React frontend (or whatever) to determine the questionnaire flow.
+
+I'll explain that a graph-based representation using a declarative configuration (like a JSON structure) is ideal. We can define each question with its prerequisites (conditions based on previous answers) and its possible answers, and then define which questions are shown based on the current answer. This can be evaluated dynamically by the form engine.
+
+I'll propose a data structure like a list of question objects, each with an id, text, responseOptions, prerequisite (a function/condition that checks answers), and possibly nextQuestions or enableWhen (though "next" might be implicit from the overall ordering). But actually, we don't need explicit edges; we can define the condition for each question to appear. That's simpler: each question has a showIf condition that evaluates the current answers. The form engine iterates over all questions in a domain and renders only those where showIf returns true. For branching where a question can be reached from different paths, the same question can appear with a showIf that combines multiple conditions. This is a declarative approach.
+
+However, for auto-filling "N/A" when a question becomes inapplicable after a previous answer change, we need to know which questions should be cleared. That's a bit more complex but can be handled by recalculating showIf and setting the answer to N/A if hidden.
+
+I'll also discuss that the decision tree for risk-of-bias judgements is separate and needs its own rules, but the data structure for the form flow can be defined by the sequence of questions and their prerequisites.
+
+I should give a concrete example in JSON for Domain 1 Variant B to illustrate.
+
+Finally, I'll tie this back to the web app: they can store the question definitions in a configuration file, and the frontend component will read this to render the dynamic form. The answers can be stored in a flat JSON object per assessment.
+
+I'll structure my answer: 1) Explain that it's essentially a finite state machine / dependency graph for form visibility. 2) Propose a declarative question schema with showIf condition. 3) Show a small example. 4) Suggest how to implement the engine. 5) Mention that the risk-of-bias judgment tree is a separate set of rules that can be added later.
+
+Because the user is not a developer, I'll keep it relatively high-level but provide enough detail to give to Replit. I'll also mention that this approach is flexible, can handle any branching, and is maintainable.
+
+I'll now craft the response.
+
+You’re describing a conditional questionnaire flow – a form where each question can have multiple possible answers, and which question appears next depends on those answers. It’s not a binary tree; it’s a directed graph (specifically a finite state machine) where each node (question) has several outgoing edges labelled by answer value, and edges can converge to the same node.
+
+But to implement this in a web app, we don’t need an explicit graph with edges. A much simpler and more maintainable approach is to declare the visibility condition for each question directly. The form engine then evaluates all questions and shows only those whose condition is satisfied, based on the user’s current answers.
+
+This is how virtually all modern survey/form frameworks work (e.g., SurveyJS, Google Forms, REDCap). It can handle any ROBINS‑I branching, including paths that merge.
+
+Recommended Data Structure (Declarative)
+For each signalling question, define:
+
+id – unique identifier, e.g. "1.1", "1.2_variantB" (because Variant A and B may use different question IDs).
+
+text – the question itself (can include markdown for nuances).
+
+responseOptions – an array of allowed answers (e.g. ["Y","PY","WN","SN","N","NI"] or a subset).
+
+showIf – a condition that must be true for the question to appear. It references other questions’ answers.
+Examples:
+
+"1.1 == 'Y' || 1.1 == 'PY'" (to show question 1.2)
+
+"1.1 == 'N' || 1.1 == 'PN' || 1.1 == 'NI'" (to show question 1.4)
+
+"1.2 == 'Y' || 1.2 == 'PY' || 1.2 == 'WN'" (to show question 1.3 from either path)
+
+A question with no showIf is always shown.
+
+For auto‑N/A and disabling, we can add a rule: if a question is hidden, its value is automatically set to "N/A" and the user cannot change it. When it becomes visible again (because the triggering answer changed), we clear the N/A and let them answer.
+
+This declarative list can be stored as a JSON array for each domain variant, loaded by the frontend. The form component simply iterates over the list, evaluates showIf, and renders a row for those that pass.
+
+Example: Domain 1 Variant B (partial)
+json
+[
+  {
+    "id": "1.1",
+    "text": "Did the authors use an analysis method that was appropriate to control for time-varying as well as baseline confounding?",
+    "responseOptions": ["Y", "PY", "N", "PN", "NI"]
+  },
+  {
+    "id": "1.2",
+    "text": "Did the authors control for all the important baseline and time-varying confounding factors for which this was necessary?",
+    "responseOptions": ["Y", "PY", "WN", "SN", "NI"],
+    "showIf": "1.1 IN ['Y','PY']"
+  },
+  {
+    "id": "1.3",
+    "text": "Were confounding factors that were controlled for... measured validly and reliably?",
+    "responseOptions": ["Y","PY","WN","SN","N","NI"],
+    "showIf": "1.2 IN ['Y','PY','WN']"   // reached via both branches
+  },
+  {
+    "id": "1.4",
+    "text": "Did the authors control for time-varying factors... after the start of intervention?",
+    "responseOptions": ["Y","PY","N","PN","NI"],
+    "showIf": "1.1 IN ['N','PN','NI']"
+  },
+  {
+    "id": "1.5",
+    "text": "Did the use of negative controls... suggest serious uncontrolled confounding?",
+    "responseOptions": ["Y","PY","PN","N"],
+    "showIf": [
+      "(1.2 IN ['SN','NI']) OR (1.4 IN ['N','PN','NI'])"
+    ].join(" OR ")
+  }
+]
+Note how 1.3 has a simple condition combining both entry paths, and 1.5’s condition reflects the two different routes (after a weak or bad answer on 1.2, or after a non‑problematic answer on 1.4). The engine evaluates these conditions using the current answer state.
+
+How the Form Engine Works
+The frontend keeps a state object that maps questionId → { value, description }. Whenever the user changes an answer:
+
+Update state with the new value.
+
+Re‑evaluate visibility for all questions whose showIf condition references that question.
+
+For any question that becomes hidden, set its answer to "N/A" and mark it as disabled.
+
+For any question that becomes visible again, clear the N/A and allow input.
+
+Re‑render the form accordingly.
+
+This is straightforward to implement with React’s useState or useReducer. The condition evaluation can be done with a tiny expression parser or by using a library like expr-eval (which safely interprets the condition strings). The showIf strings are simple enough to be parsed with eval in a controlled environment, but a safe parser is better.
+
+What About the Rob‑of‑Bias Judgement Algorithms?
+The form flow (which question appears when) is separate from the risk‑of‑bias judgement that the tool computes after all answers are given. The former is what I just described; the latter is the decision table (the missing algorithm) that takes the final answers and outputs “Low”, “Moderate”, etc.
+
+We can still build the complete form and store answers without the final judgement algorithm. When you later obtain (or infer) the official decision tables, you can plug in a function computeJudgement(answers) that returns the rating. For now, you could implement a placeholder that simply returns a message like “Judgement not yet implemented,” and the user can manually select a judgement override.
+
+Answering Your Specific Questions
+Is this a graph? Yes, it’s a directed graph where nodes are questions and edges are conditioned on answers. But for implementation, a declarative visibility list is far easier.
+
+What data structure is best? A JSON array of question definitions, each with an id, text, responseOptions, and a showIf string (or array of strings). This is easy for a developer to read and modify.
+
+How do I organize this? Create one such JSON file per domain (e.g., domain1_variantA.json, domain1_variantB.json, etc.) and load them into the form component. The form engine will use these definitions to render the dynamic questionnaire.
+
+You can give the above explanation and example JSON to the Replit agent so they understand how to build the conditional form logic. They’ll then implement the React component that interprets that config.
+
+If you’d like, I can generate complete JSON definitions for all six domains based on the cribsheet’s signalling question flow – that would be the exact configuration you need for the app. Just let me know.
+
+Yes, generate JSON definitions for all 6 domains. (2 for domain 1, 1A and 1B) - so a total of 7 JSON definitions
+For domain 1, there should be 2 JSON definitions. Treat variant A and variant B differently. For each study, it will either be done using variant A or B, not need to overlap them.
+We need to produce JSON definitions for all domains. The user wants to use a declarative approach: each question has an id, text, responseOptions, and a showIf condition string that references other question IDs. They want to avoid complex overlapping logic, just the visibility condition based on previous answers.
+
+I'll create definitions for:
+
+Domain 1 Variant A (baseline confounding only)
+Domain 1 Variant B (baseline + time-varying confounding)
+Domain 2 (classification of interventions)
+Domain 3 (selection bias)
+Domain 4 (missing data)
+Domain 5 (measurement of outcomes)
+Domain 6 (selective reporting)
+
+Each domain's questions as per the cribsheet. I'll map out the conditional flow as described in the document.
+
+Key points:
+
+Domain 1 Variant A: questions 1.1, 1.2, 1.3, 1.4 (which is called 1.4 but it's the negative controls question). Wait, in Variant A, after 1.1 there is 1.2, 1.3, and 1.4. The cribsheet on page 17 shows Variant A signalling questions: 1.1, 1.2, 1.3, 1.4 (last one about negative controls). Actually, the cribsheet's domain 1 Variant A table (page 18-19) shows:
+
+1.1 Did the authors control for all the important confounding factors for which this was necessary? (response Y/PY/WN/SN/NI)
+
+1.2 If Y/PY/WN to 1.1: Were confounding factors that were controlled for (and for which control was necessary) measured validly and reliably by the variables available in this study? (NA/Y/PY/WN/SN/NI)
+
+1.3 If Y/PY/WN to 1.1: Did the authors control for any post-intervention variables that could have been affected by the intervention? (NA/Y/PY/PN/N/NI)
+
+1.4. Did the use of negative controls, quantitative bias analysis, or other considerations, suggest serious uncontrolled confounding? (Y/PY/PN/N)
+
+Note: In Variant A, there is no "1.4 If N/PN/NI to 1.1 ..." question. That's variant B. So Variant A has 4 questions, all conditional on 1.1.
+
+Domain 1 Variant B (page 21-22): signalling questions 1.1, 1.2, 1.3, 1.4, 1.5. The flow:
+
+1.1 Did the authors use an analysis method that was appropriate to control for time-varying as well as baseline confounding? (Y/PY/N/PN/NI)
+If Y/PY → 1.2: Did the authors control for all the important baseline and time-varying confounding factors... (Y/PY/WN/SN/NI)
+If Y/PY/WN to 1.2 → 1.3: Were confounding factors... measured validly and reliably? (Y/PY/WN/SN/N/NI)
+If N/PN/NI to 1.1 → 1.4: Did the authors control for time-varying factors... after start of intervention? (Y/PY/N/PN/NI)
+If SN/NI to 1.2 OR if N/PN/NI to 1.4 → 1.5: Did negative controls... suggest serious uncontrolled confounding? (Y/PY/PN/N)
+
+Also there's a note: if 1.1 = Y/PY and 1.2 = SN/NI then go to 1.5 (skip 1.3). If 1.4 = N/PN/NI then go to 1.5. If 1.4 = Y/PY, then critical risk (but that's the algorithm judgment part, not part of the display logic? The document says: "1.4 If N/PN/NI to 1.1: Did the authors control for time-varying factors... Answer 'SN' if there is at least one important confounding factor that should have been controlled for but was not... Risk of bias judgement: see algorithm." The algorithm is missing. But for the display logic, we just need to show which questions are asked. The judgement of Critical if 1.4 = Y/PY is part of the algorithm, which we'll implement separately. The form flow only cares about visibility. So 1.4 always appears if 1.1 = N/PN/NI. After answering 1.4, we might need to show 1.5 based on 1.2 answer (if 1.1=Y/PY and 1.2=SN/NI) or 1.4 answer (if N/PN/NI). But 1.4 answer Y/PY leads to no further questions? Actually the form can just show 1.5 based on the condition: (1.2 answer is SN or NI) OR (1.4 answer is N, PN, or NI). If 1.4 is Y/PY, then the condition (1.4 IN ['N','PN','NI']) is false, so 1.5 wouldn't be shown. That aligns. So 1.5 appears only when path goes to it.
+
+Thus Domain 1B questions:
+
+1.1 (always shown)
+
+1.2 (showIf: 1.1 in ['Y','PY'])
+
+1.3 (showIf: 1.2 in ['Y','PY','WN'])
+
+1.4 (showIf: 1.1 in ['N','PN','NI'])
+
+1.5 (showIf: (1.2 in ['SN','NI']) OR (1.4 in ['N','PN','NI']))
+
+Domain 2 (classification of interventions) from pages 25-27. Signalling questions:
+
+2.1 Were the intervention strategies distinguishable at the time when follow-up would have started in the target trial? (Y/PY/PN/N/NI)
+2.2 If N/PN/NI to 2.1: Did all or nearly all outcome events occur after the intervention and comparator strategies could be distinguished? (NA/Y/PY/PN/N/NI)
+2.3 If N/PN/NI to 2.2: Did the analysis avoid problems arising from intervention strategies that are not distinguishable at the start of follow-up? (NA/SY/WY/PN/N/NI)
+2.4 Was classification of intervention status influenced by knowledge of the outcome or risk of the outcome? (SY/WY/PN/N/NI)
+2.5 Were further classification errors (not influenced by knowledge of the outcome or risk of the outcome) likely? (Y/PY/PN/N/NI)
+
+flow: 2.1 is always shown. If 2.1 = Y/PY/PN? Actually document says 2.2 is asked "If N/PN/NI to 2.1". So 2.2 appears if 2.1 is N, PN, or NI. Then 2.3 appears if 2.2 is N/PN/NI. 2.4 appears after 2.1 (always?), wait the table shows 2.4 is not conditional on previous questions, it seems always shown. And 2.5 is always shown. Indeed the cribsheet has 2.4 and 2.5 without condition. I'll check page 26: "2.4 Was classification of intervention status influenced by knowledge of the outcome or risk of the outcome?" no precondition. 2.5 also none. So 2.4 and 2.5 appear for all. 2.2 and 2.3 are conditional layers. So showIf: 2.2 when 2.1 in ['N','PN','NI']; 2.3 when 2.2 in ['N','PN','NI']; 2.4 and 2.5 always visible. That seems correct.
+
+Domain 3 (selection bias) pages 29-31. Questions:
+
+3.1 Did follow up in the analysis begin at the start of the intervention strategies being compared? (Y/PY/WN/SN/NI)
+3.2 If Y/PY to 3.1: Were outcome events during a period of follow-up after the start of the interventions excluded from the analysis? (NA/Y/PY/PN/N/NI)
+3.3 Was selection of participants into the study (or into the analysis) based on participant characteristics observed after the start of intervention (additional to the situations addressed in 3.1 and 3.2)? (Y/PY/PN/N/NI)
+3.4 If Y/PY to 3.3: Were the post-intervention variables that influenced selection likely to be associated with intervention? (NA/Y/PY/PN/N/NI)
+3.5 If Y/PY to 3.4: Were the post-intervention variables that influenced selection likely to be influenced by the outcome or a cause of the outcome? (NA/Y/PY/PN/N/NI)
+3.6 If SN to 3.1 or Y/PY to 3.5: Is it likely that the analysis corrected for all of the potential selection biases identified above? (NA/Y/PY/PN/N/NI)
+3.7 If N/PN/NI to 3.6: Did sensitivity analyses demonstrate that the likely impact of the potential selection biases identified above was minimal? (NA/Y/PY/PN/N/NI)
+3.8 If N/PN/NI to 3.7: Were potential selection biases identified above sufficiently severe that the result should not be included in a quantitative synthesis? (NA/Y/PY/PN/N/NI)
+
+So: 3.1 and 3.3 always shown. 3.2 shown if 3.1 in ['Y','PY']. 3.4 shown if 3.3 in ['Y','PY']. 3.5 shown if 3.4 in ['Y','PY']. 3.6 shown if (3.1 == 'SN') OR (3.5 in ['Y','PY']). 3.7 shown if 3.6 in ['N','PN','NI']. 3.8 shown if 3.7 in ['N','PN','NI'].
+
+Domain 4 (missing data) pages 33-37. Complex branching. Review:
+
+4.1,4.2,4.3 are always shown? Actually they are always asked, no condition. 4.4: "If N/PN/NI to 4.1, 4.2 or 4.3: Is the result based on a complete case analysis?" So show 4.4 if any of 4.1,4.2,4.3 is N/PN/NI? The cribsheet says "If N/PN/NI to 4.1, 4.4 or 4.4" (typo likely 4.1, 4.2 or 4.3). Yes, on page 34: "4.4 If N/PN/NI to 4.1, 4.2 or 4.3: Is the result based on a complete case analysis?" So show 4.4 if any of those not Y/PY. But careful: could be multiple. So condition: (4.1 in ['N','PN','NI'] or 4.2 in ['N','PN','NI'] or 4.3 in ['N','PN','NI']). But if all are Y/PY, the pathway ends (Low risk, no further questions). So 4.4 appears when there's missing data in at least one category. Now within, many subsequent paths.
+
+Then 4.5: If Y/PY/NI to 4.4: "Was exclusion from the analysis because of missing data likely to be related to the true value of the outcome?" So show 4.5 if 4.4 in ['Y','PY','NI'].
+
+4.6: If Y/PY/NI to 4.5: "Is the relationship between the outcome and missingness likely to be explained by the variables in the analysis model?" So show if 4.5 in ['Y','PY','NI'].
+
+4.7: If N/PN to 4.4: "Was the analysis based on imputing missing values?" So show if 4.4 in ['N','PN'].
+
+4.8: If Y/PY to 4.7: "Is it reasonable to assume that data were 'missing at random' (MAR) or 'missing completely at random' (MCAR)?" Show if 4.7 in ['Y','PY'].
+
+4.9: If Y/PY to 4.8: "Was imputation performed appropriately?" Show if 4.8 in ['Y','PY'].
+
+4.10: If N/PN/NI to 4.7: "Was an appropriate alternative method used to correct for bias due to missing data?" Show if 4.7 in ['N','PN','NI'].
+
+4.11: "If PN/N/NI to 4.1, 4.2 or 4.3 AND (Y/PY/NI to 4.5 OR WN/SN/NI to 4.9 OR WN/SN/NI to 4.10): Is there evidence that the result was not biased by missing data?" This is a complex condition. I'll interpret: show 4.11 if:
+
+At least one of 4.1, 4.2, 4.3 is PN/N/NI (i.e., some missing data) AND
+
+(4.5 is Y/PY/NI) OR (4.9 is WN/SN/NI) OR (4.10 is WN/SN/NI).
+
+But careful: if all 4.1-4.3 are Y/PY, 4.11 never appears. So condition: (some missing) AND ( (4.5 in ['Y','PY','NI']) OR (4.9 in ['WN','SN','NI']) OR (4.10 in ['WN','SN','NI']) ). This will appear after the respective sub-paths.
+
+I'll define showIf for 4.11 as a combination string. Note that 4.5, 4.9, 4.10 are not all visible at the same time; only one sub-path is active. So 4.11 will appear at the end of whichever path was taken if the condition holds. So it's fine to have it conditionally based on those answers, regardless of which are visible.
+
+Thus showIf for 4.11: "((4.1 IN ['PN','N','NI']) OR (4.2 IN ['PN','N','NI']) OR (4.3 IN ['PN','N','NI'])) AND ((4.5 IN ['Y','PY','NI']) OR (4.9 IN ['WN','SN','NI']) OR (4.10 IN ['WN','SN','NI']))"
+
+Note that the cribsheet says "If PN/N/NI to 4.1, 4.2 or 4.3" (i.e., not Y/PY). So the condition uses PN, N, NI. Good.
+
+Domain 5 (measurement of outcome) pages 39-40:
+
+5.1 Could measurement or ascertainment of the outcome have differed between intervention groups? (Y/PY/PN/N/NI)
+5.2 Were outcome assessors aware of the intervention received by study participants? (Y/PY/PN/N/NI)
+5.3 If Y/PY/NI to 5.2: Could assessment of the outcome have been influenced by knowledge of the intervention received? (NA/SY/WY/PN/N/NI)
+
+So 5.1, 5.2 always shown. 5.3 shown if 5.2 in ['Y','PY','NI']. Straightforward.
+
+Domain 6 (selective reporting) pages 42-46:
+
+6.1 Was the result reported in accordance with an available, pre-determined analysis plan? (Y/PY/PN/N/NI)
+6.2 ... multiple outcome measurements within the outcome domain? (Y/PY/PN/N/NI)
+6.3 ... multiple analyses of the data? (Y/PY/PN/N/NI)
+6.4 ... multiple subgroups? (Y/PY/PN/N/NI)
+
+All four are always shown according to cribsheet; no condition. So 6.1-6.4 always visible. The algorithm then combines answers for judgement.
+
+Thus the JSONs are straightforward. I'll generate them now, with appropriate responseOptions arrays.
+
+For responseOptions, I'll use the exact sets from the cribsheet. For example, Domain 1A:
+
+1.1: Y, PY, WN, SN, NI
+
+1.2: NA, Y, PY, WN, SN, N, NI? Actually cribsheet says response options: NA / Y / PY / WN / SN / NI. So there is NA and N, but N is not an option for 1.2? It lists: "NA / Y / PY / WN (no, but the extent of measurement error... probably not substantial) / SN (no, and the extent... probably substantial) / NI". So I'll include "NA","Y","PY","WN","SN","NI". Similarly 1.3: NA / Y / PY / PN / N / NI. 1.4: Y / PY / PN / N. So those are the options.
+
+I'll define the JSON for each domain variant. Include a "domain" field and "variant" for D1.
+
+I'll produce a final answer with all 7 JSON definitions.
+
+Below are the complete declarative question definitions for all ROBINS‑I V2 domains, using the showIf approach. Each JSON array can be stored as a configuration file (e.g. domain1A.json, domain2.json, etc.) and rendered by a generic dynamic‑form component.
+
+The definitions track the official signalling questions exactly as they appear in the cribsheet, including the exact response option lists. The showIf strings use a simple expression syntax where QID IN ['VAL1','VAL2'] checks membership. Hidden questions are automatically set to "N/A" and disabled.
+
+Domain 1 Variant A (intention‑to‑treat, baseline confounding only)
+json
+[
+  {
+    "id": "1.1",
+    "text": "Did the authors control for all the important confounding factors for which this was necessary?",
+    "responseOptions": ["Y","PY","WN","SN","NI"],
+    "showIf": null
+  },
+  {
+    "id": "1.2",
+    "text": "Were confounding factors that were controlled for (and for which control was necessary) measured validly and reliably by the variables available in this study?",
+    "responseOptions": ["NA","Y","PY","WN","SN","NI"],
+    "showIf": "1.1 IN ['Y','PY','WN']"
+  },
+  {
+    "id": "1.3",
+    "text": "Did the authors control for any post‑intervention variables that could have been affected by the intervention?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "1.1 IN ['Y','PY','WN']"
+  },
+  {
+    "id": "1.4",
+    "text": "Did the use of negative controls, quantitative bias analysis, or other considerations, suggest serious uncontrolled confounding?",
+    "responseOptions": ["Y","PY","PN","N"],
+    "showIf": null
+  }
+]
+Notes:
+
+1.2 and 1.3 both appear when 1.1 is Y, PY, or WN.
+
+1.4 (the negative‑control question) is always shown, independent of previous answers.
+
+Domain 1 Variant B (per‑protocol, baseline + time‑varying confounding)
+json
+[
+  {
+    "id": "1.1",
+    "text": "Did the authors use an analysis method that was appropriate to control for time‑varying as well as baseline confounding?",
+    "responseOptions": ["Y","PY","N","PN","NI"],
+    "showIf": null
+  },
+  {
+    "id": "1.2",
+    "text": "Did the authors control for all the important baseline and time‑varying confounding factors for which this was necessary?",
+    "responseOptions": ["Y","PY","WN","SN","NI"],
+    "showIf": "1.1 IN ['Y','PY']"
+  },
+  {
+    "id": "1.3",
+    "text": "Were confounding factors that were controlled for (and for which control was necessary) measured validly and reliably by the variables available in this study?",
+    "responseOptions": ["Y","PY","WN","SN","N","NI"],
+    "showIf": "1.2 IN ['Y','PY','WN']"
+  },
+  {
+    "id": "1.4",
+    "text": "Did the authors control for time‑varying factors or other variables measured after the start of intervention?",
+    "responseOptions": ["Y","PY","N","PN","NI"],
+    "showIf": "1.1 IN ['N','PN','NI']"
+  },
+  {
+    "id": "1.5",
+    "text": "Did the use of negative controls, or other considerations, suggest serious uncontrolled confounding?",
+    "responseOptions": ["Y","PY","PN","N"],
+    "showIf": "(1.2 IN ['SN','NI']) OR (1.4 IN ['N','PN','NI'])"
+  }
+]
+Flow summary:
+
+1.1 = Y/PY → 1.2 → (1.2 Y/PY/WN → 1.3; 1.2 SN/NI → 1.5)
+
+1.1 = N/PN/NI → 1.4 → (1.4 N/PN/NI → 1.5; 1.4 Y/PY stops – the tool later flags Critical risk)
+
+Domain 2 – Bias in classification of interventions
+json
+[
+  {
+    "id": "2.1",
+    "text": "Were the intervention strategies distinguishable at the time when follow‑up would have started in the target trial?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "2.2",
+    "text": "Did all or nearly all outcome events occur after the intervention and comparator strategies could be distinguished?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "2.1 IN ['N','PN','NI']"
+  },
+  {
+    "id": "2.3",
+    "text": "Did the analysis avoid problems arising from intervention strategies that are not distinguishable at the start of follow‑up?",
+    "responseOptions": ["NA","SY","WY","PN","N","NI"],
+    "showIf": "2.2 IN ['N','PN','NI']"
+  },
+  {
+    "id": "2.4",
+    "text": "Was classification of intervention status influenced by knowledge of the outcome or risk of the outcome?",
+    "responseOptions": ["SY","WY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "2.5",
+    "text": "Were further classification errors (not influenced by knowledge of the outcome or risk of the outcome) likely?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  }
+]
+Domain 3 – Bias in selection of participants into the study
+json
+[
+  {
+    "id": "3.1",
+    "text": "Did follow‑up in the analysis begin at the start of the intervention strategies being compared?",
+    "responseOptions": ["Y","PY","WN","SN","NI"],
+    "showIf": null
+  },
+  {
+    "id": "3.2",
+    "text": "Were outcome events during a period of follow‑up after the start of the interventions excluded from the analysis?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "3.1 IN ['Y','PY']"
+  },
+  {
+    "id": "3.3",
+    "text": "Was selection of participants into the study (or into the analysis) based on participant characteristics observed after the start of intervention (additional to the situations addressed in 3.1 and 3.2)?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "3.4",
+    "text": "Were the post‑intervention variables that influenced selection likely to be associated with intervention?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "3.3 IN ['Y','PY']"
+  },
+  {
+    "id": "3.5",
+    "text": "Were the post‑intervention variables that influenced selection likely to be influenced by the outcome or a cause of the outcome?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "3.4 IN ['Y','PY']"
+  },
+  {
+    "id": "3.6",
+    "text": "Is it likely that the analysis corrected for all of the potential selection biases identified above?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "(3.1 == 'SN') OR (3.5 IN ['Y','PY'])"
+  },
+  {
+    "id": "3.7",
+    "text": "Did sensitivity analyses demonstrate that the likely impact of the potential selection biases identified above was minimal?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "3.6 IN ['N','PN','NI']"
+  },
+  {
+    "id": "3.8",
+    "text": "Were potential selection biases identified above sufficiently severe that the result should not be included in a quantitative synthesis?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "3.7 IN ['N','PN','NI']"
+  }
+]
+Domain 4 – Bias due to missing data
+json
+[
+  {
+    "id": "4.1",
+    "text": "Were complete data on intervention status available for all, or nearly all, participants?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "4.2",
+    "text": "Were complete data on the outcome available for all, or nearly all, participants?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "4.3",
+    "text": "Were complete data on important confounding variables available for all, or nearly all, participants?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "4.4",
+    "text": "Is the result based on a complete case analysis?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "(4.1 IN ['N','PN','NI']) OR (4.2 IN ['N','PN','NI']) OR (4.3 IN ['N','PN','NI'])"
+  },
+  {
+    "id": "4.5",
+    "text": "Was exclusion from the analysis because of missing data likely to be related to the true value of the outcome?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "4.4 IN ['Y','PY','NI']"
+  },
+  {
+    "id": "4.6",
+    "text": "Is the relationship between the outcome and missingness likely to be explained by the variables in the analysis model?",
+    "responseOptions": ["NA","Y","PY","WN","SN","NI"],
+    "showIf": "4.5 IN ['Y','PY','NI']"
+  },
+  {
+    "id": "4.7",
+    "text": "Was the analysis based on imputing missing values?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": "4.4 IN ['N','PN']"
+  },
+  {
+    "id": "4.8",
+    "text": "Is it reasonable to assume that data were ‘missing at random’ (MAR) or ‘missing completely at random’ (MCAR)?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "4.7 IN ['Y','PY']"
+  },
+  {
+    "id": "4.9",
+    "text": "Was imputation performed appropriately?",
+    "responseOptions": ["NA","Y","PY","WN","SN","NI"],
+    "showIf": "4.8 IN ['Y','PY']"
+  },
+  {
+    "id": "4.10",
+    "text": "Was an appropriate alternative method used to correct for bias due to missing data?",
+    "responseOptions": ["NA","Y","PY","WN","SN","NI"],
+    "showIf": "4.7 IN ['N','PN','NI']"
+  },
+  {
+    "id": "4.11",
+    "text": "Is there evidence that the result was not biased by missing data?",
+    "responseOptions": ["NA","Y","PY","PN","N"],
+    "showIf": "((4.1 IN ['PN','N','NI']) OR (4.2 IN ['PN','N','NI']) OR (4.3 IN ['PN','N','NI'])) AND ((4.5 IN ['Y','PY','NI']) OR (4.9 IN ['WN','SN','NI']) OR (4.10 IN ['WN','SN','NI']))"
+  }
+]
+Domain 5 – Bias in measurement of the outcome
+json
+[
+  {
+    "id": "5.1",
+    "text": "Could measurement or ascertainment of the outcome have differed between intervention groups?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "5.2",
+    "text": "Were outcome assessors aware of the intervention received by study participants?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "5.3",
+    "text": "Could assessment of the outcome have been influenced by knowledge of the intervention received?",
+    "responseOptions": ["NA","SY","WY","PN","N","NI"],
+    "showIf": "5.2 IN ['Y','PY','NI']"
+  }
+]
+Domain 6 – Bias in selection of the reported result
+json
+[
+  {
+    "id": "6.1",
+    "text": "Was the result reported in accordance with an available, pre‑determined analysis plan?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "6.2",
+    "text": "Is the numerical result being assessed likely to have been selected, on the basis of the results, from multiple outcome measurements (e.g. scales, definitions, time points) within the outcome domain?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "6.3",
+    "text": "Is the numerical result being assessed likely to have been selected, on the basis of the results, from multiple analyses of the data?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "6.4",
+    "text": "Is the numerical result being assessed likely to have been selected, on the basis of the results, from multiple subgroups?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  }
+]
+These definitions match the exact branching logic of the cribsheet. You can hand them to your Replit agent and ask them to build a form renderer that:
+
+Loads the appropriate JSON array based on the assessment variant (e.g. domain1A.json when user selected ITT in part C).
+
+Evaluates showIf conditions after every answer change using a small expression evaluator.
+
+Hides inapplicable questions, sets their value to "N/A", and disables them until they become visible again.
+
+Renders each question with a label, radio buttons, and a free‑text “Description” field (plus the AI‑suggested quote if using the AI assistant).
+
+The risk‑of‑bias judgement algorithm (not yet available in the cribsheet) can later be added as a separate module that reads the final answers and determines Low/Moderate/Serious/Critical. For now, you can simply allow the user to select an override judgement while awaiting the official decision tables.
