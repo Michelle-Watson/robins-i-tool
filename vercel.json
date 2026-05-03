@@ -1,0 +1,6 @@
+{
+  "installCommand": "pnpm install --frozen-lockfile",
+  "buildCommand": "pnpm --filter @workspace/robins-i-app run build",
+  "outputDirectory": "artifacts/robins-i-app/dist/public",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
