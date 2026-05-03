@@ -4,5 +4,11 @@ export const modules: ModuleMap = {
   "./components/mockups/domain-trees/Domain1AGraph.tsx": () => import("../components/mockups/domain-trees/Domain1AGraph.tsx"),
   "./components/mockups/domain-trees/Domain1ATree.tsx": () => import("../components/mockups/domain-trees/Domain1ATree.tsx"),
   "./components/mockups/domain-trees/Domain1BGraph.tsx": () => import("../components/mockups/domain-trees/Domain1BGraph.tsx"),
-  "./components/mockups/domain-trees/Domain1BTree.tsx": () => import("../components/mockups/domain-trees/Domain1BTree.tsx")
+  "./components/mockups/domain-trees/Domain1BTree.tsx": () => import("../components/mockups/domain-trees/Domain1BTree.tsx"),
+  "./components/mockups/domain-trees/Domain2Graph.tsx": () => import("../components/mockups/domain-trees/Domain2Graph.tsx"),
+  "./components/mockups/domain-trees/Domain3Graph.tsx": () => import("../components/mockups/domain-trees/Domain3Graph.tsx"),
+  "./components/mockups/domain-trees/Domain4Graph.tsx": () => import("../components/mockups/domain-trees/Domain4Graph.tsx"),
+  "./components/mockups/domain-trees/Domain5Graph.tsx": () => import("../components/mockups/domain-trees/Domain5Graph.tsx"),
+  "./components/mockups/domain-trees/Domain6Graph.tsx": () => import("../components/mockups/domain-trees/Domain6Graph.tsx"),
+  "./components/mockups/domain-trees/shared.tsx": () => import("../components/mockups/domain-trees/shared.tsx")
 };
