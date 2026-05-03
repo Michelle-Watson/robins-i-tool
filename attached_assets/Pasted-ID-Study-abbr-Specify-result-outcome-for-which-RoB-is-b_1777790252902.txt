@@ -1,0 +1,231 @@
+ID #	Study abbr.	Specify result / outcome for which RoB is being assessed	Reviewer 1 Initials	Reviewer 2 Initials	Study Design	Domain 1: Bias due to confounding											Domain 2: Bias in classification of interventions												Domain 3: Bias in selection of participants into the study (or into the analysis)																			Domain 4: Bias due to missing data																									Domain 5: Bias in measurement of the outcome									Domain 6: Bias in selection of the reported result											Overall bias	
+						Variant A: (the analysis is estimating the intention-to-treat effect so only baseline confounding needs to be addressed)								Risk of bias judgement	Support for Judgement	Optional: What is the predicted direction of bias?	2.1 Were the intervention strategies distinguishable at the time when follow-up would have started in the target trial?	Description	2.2 If N/PN/NI to 2.1: Did all or nearly all outcome events occur after the intervention and comparator strategies could be distinguished?	Description	2.3 If N/PN/NI to 2.2: Did the analysis avoid problems arising from intervention strategies that are not distinguishable at the start of follow-up?	Description	2.4 Was classification of intervention status influenced by knowledge of the outcome or risk of the outcome?	Description	"2.5 Were further classification errors (not influenced by knowledge of the outcome or risk of the outcome) likely?
+
+People who have vaccination in their record are likely classified correct.
+EXCEPTION: Likelihood of deliberate misclassification due to health policy around billing is unlikely to generalize outside of #1200.
+
+CONCERN: May be people in unvaccinated group who got Tdap and didn't have it documented (e.g., getting vaccinated at one-off clinic).
+Liability of using 'found data'
+
+GIST: Don't assume misclassification unless the study addresses it."	Risk of bias judgement	Support for Judgement	Optional: What is the predicted direction of bias?	A. Questions about prevalent user bias and immortal time 				B. Questions about other types of selection bias						C. Questions about analysis, sensitivity analyses and severity of the problem						Risk of bias judgement	Support for Judgement	Optional: What is the predicted direction of bias?	4.1 Were complete data on intervention status available for all, or nearly all, participants?	Description	"4.2 Were complete data on the outcome available
+for all, or nearly all, participants?
+
+ROBINS-I mentions ~5-10% missing is ok. Set OUR threshold ~10% for most studies.
+
+The larger the sudy and the more events, the more leniant we can be. ~N=5k is large, therefore ~15% missing data is ok.
+Smaller N = more fragile = concern"	Description	"4.3 Were complete data on important
+confounding variables available for all, or nearly
+all, participants?"	Description	"4.4 If N/PN/NI to 4.1, 4.2 or 4.3: 
+Is the result based on a complete case analysis?"	Description	"4.5 If Y/PY/NI to 4.4: 
+Was exclusion from the analysis because of missing data likely to be related to the true value of the outcome?
+
+Any outcomes INVOLVING the infant (e.g., infant outcomes, preterm etc.), write PN/N.
+EXCEPTION: Stillbirth is a hospital attended event (by defn)"	Description	"4.6 If Y/PY/NI to 4.5: 
+Is the relationship between the outcome and missingness likely to be explained by the variables in the analysis model?"	Description	"4.7 If N/PN to 4.4: 
+Was the analysis based on imputing missing values?"	Description	"4.8 If Y/PY to 4.7: 
+Is it reasonable to assume that data were ‘missing at random’ (MAR) or ‘missing completely at random’ (MCAR)?"	Description	"4.9 If Y/PY to 4.8: 
+Was imputation performed appropriately?"	Description	"4.10 If N/PN/NI to 4.7: 
+Was an appropriate alternative method used to correct for bias due to missing data?"	Description	"4.11 If PN/N/NI to 4.1, 4.2 or 4.3 AND (Y/PY/NI to
+4.5 OR WN/SN/NI to 4.9 OR WN/SN/NI to 4.10): 
+Is there evidence that the result was not biased by missing data?
+
+Only write Y/PY if there IS a sensitivity analysis.
+e..g, of sensitivity anlaysis: #1200"	Description	Risk of bias judgement	Support for Judgement	Optional: What is the predicted direction of bias?	5.1 Could measurement or ascertainment of the outcome have differed between intervention groups?	Description	5.2 Were outcome assessors aware of the intervention received by study participants?	Description	"5.3 If Y/PY/NI to 5.2: 
+Could assessment of the outcome have been influenced by knowledge of the intervention received?"	Description	Risk of bias judgement	Support for Judgement	Optional: What is the predicted direction of bias?	"6.1 Was the result reported in accordance with an available, pre-determined analysis plan?
+
+Protocol are very rare for NRS, so this wouldn't usually be our goto. NI is still fair since this domain can still reach 'low' with PN for remaining Qs"	Description	Is the reported effect estimate likely to be selected, on the basis of the results, from...						Risk of bias judgement	Support for Judgement	Optional: What is the predicted direction of bias?	Risk of bias judgement	Optional: What is the predicted direction of bias?
+						"1.1 Did the authors control for all the important confounding factors for which this was necessary?
+If SN/NI: STOP
+
+Identifying Critical Confounders - Tdap Vaccine - VIP
+Critical confounders:
+Preexisting health conditions
+Smoking status
+History of substance use
+Maternal age
+Parity
+Utilization of/access to prenatal care
+Insurance status
+Vaccine product(s) received (Tdap +/- others such as influenza)
+Gestational age at vaccination
+
+Confounders (control w/adjustment):
+Year of delivery
+Age at delivery
+Healthy vaccinee effect (smoking/substance use, history of gestational diabetes, history of hypertension, BMI, access to prenatal care)
+
+Effect modifiers (explore w/stratification):
+Gestational age at vaccination
+Vaccine product(s) received
+Multiple pregnancies w/Tdap (revaccination)"	"Description 
+(list adjustment performed either in eligibility or statistical analysis)"	"1.2 If Y/PY/WN to 1.1: 
+Were confounding factors that were controlled for (and for which control was necessary) measured validly and reliably by the variables available in this study?"	Description	"1.3 If Y/PY/WN to 1.1: 
+Did the authors control for any postintervention variables that could have been affected by the intervention?"	Description	1.4. Did the use of negative controls, quantitative bias analysis, or other considerations, suggest serious unmeasured confounding?	Description																"3.1 Did follow up in the analysis begin at the start of the intervention strategies being compared?
+
+Usually Y/PY."	Description	3.2 If Y/PY to 3.1: Were outcome events during a period of follow-up after the start of the interventions excluded from the analysis?	"Description
+
+How was: Immortal Time Bias avoided"	"3.3 Was selection of participants into the study (or into the analysis) based on participant characteristics observed after the start of intervention (additional to the situations addressed in 3.1 and 3.2)?
+
+NOTE: characteristics (e.g., health seeking behaviour - may be captured by proxy via ""access to prenatal care"" - baseline characteristics)
+access to healthcare, healthcare behaviours -> can signal health vaccine bias
+PY/Y IFF not a complete registry of entire population of geographic area. e.g.,  Subest of target population (Kaiser).
+
+Birth outcomes occur after maternal vaccination, so it Y/PY. (e.g., #1238 Fernandes 2019 even if study reports effectiveness and NOT safety)"	Description	"3.4 If Y/PY to 3.3: Were the post-intervention variables that influenced selection likely to be associated with intervention?
+
+Nothing in literature has shown that Tdap vaccination is likely associated with the excluded criterea (e.g., . -> PN"	Description	"3.5 If Y/PY to 3.4: Were the post-intervention variables that influenced selection likely to be influenced by the outcome or a cause of the outcome?
+
+If pertussis (effectiveness) influenced safety outcomes, then we would have an assue. ~PY/Y.
+Usually PN"	Description	"3.6 If SN to 3.1 or Y/PY to 3.5: 
+Is it likely that the analysis corrected for all of the potential selection biases identified above?"	Description	"3.7 If N/PN/NI to 3.6: 
+Did sensitivity analyses demonstrate that the likely impact of the potential selection biases identified above was minimal?"	Description	"3.8 If N/PN/NI to 3.7: 
+Were potential selection biases identified above sufficiently severe that the result should not be included in a quantitative synthesis?"	Description																																								6.2 ... multiple outcome measurements (e.g. scales, definitions, time points) within the outcome domain?	Description	6.3 ... multiple analyses of the data?	Description	6.4 ... multiple subgroups?	Description					
+"#1200
+Supplement: https://pmc.ncbi.nlm.nih.gov/articles/instance/8084546/bin/supp_9_2_E349__index.html "		"Safety - Adults
+Stillbirth
+
+Tdap        11,519        36        ""crude HR: 0.99 (95% CI 0.71–1.38)
+IPTW-adjusted estimate HR: 1.15 (95% CI 0.82–1.60)""        stillbirth (at ≥ 20 wk of gestation)
+No Tdap        603,694        3249        NR        NR"	RL	MW	NRS - comparative	Y	"""To generate results adjusted for confounding, we used propensity score methods. We generated a propensity score representing the probability of Tdap vaccine receipt for each mother, using a logistic regression model including all baseline covariates as well as adequacy of prenatal care44 (Appendix 1, Supplemental Tables S2 and S4, and section on coding algorithm for Revised-Graduated Prenatal Care Utilization Index). We transformed the propensity scores into stabilized inverse probability of treatment weights, which were incorporated in all regression models to generate adjusted estimates (Appendix 1, section on propensity score adjustment). 45 All analyses were conducted with SAS Enterprise Guide 7.1 (SAS Institute).
+
+""*Data were weighted with the use of stabilized IPTWs calculated based on propensity scores. Variables included in the propensity score model were maternal age, parity, multiple birth, baby’s sex, preexisting maternal medical conditions (chronic hypertension, diabetes, asthma, heart disease, thyroid disease), fiscal year of conception, maternal world region of birth, Ontario Marginalization Index dimensions (residential instability, material deprivation, dependency, ethnic concentration), rural residence, neighbourhood income quintile, LHIN group and prenatal care index."""	Y	"Covariates derived from validated health administrative databases: ""Data sources are described in Appendix 1, Supplemental Table S1.""
+Confounders like maternal age, parity, preexisting conditions, and prenatal care index were measured using standard ICD-10 codes and billing data."	N		N	"""Using the array approach, we estimated the impact of an unmeasured confounder… a harmful unmeasured confounder would have biased estimates downward… If 20% of unvaccinated mothers and 10% of Tdap-vaccinated mothers had a risk factor that increased the outcome twofold, we would have underestimated the HRs and RRs of study outcomes by 8%.""
+
+Sensitivity analyses suggest residual confounding is unlikely hiding a harmful effect"	Low (except for uncontrolled confounding)			Y	"We identified Tdap vaccination during pregnancy using billing code G847 in the Ontario Health Insurance Plan database. We classified Tdap vaccination as having occurred during pregnancy if it was administered between 14 days after the last menstrual period (estimated by subtracting gestational age from date of birth) to 1 day before delivery."					PN	"""We identified Tdap vaccination during pregnancy using billing code G847 in the Ontario Health Insurance Plan database""
+Billing occured at time of service"	PY	Moderate	2.5: "Ontario currently limits public funding for adult booster Tdap vaccinations to 1 dose. If care providers refrained from billing for Tdap vaccination to avoid additional costs for the mother, exposure may have been misclassified."		Y	"Follow-up for these time-to-event outcomes commenced 14 days after the last menstrual period"	N	"""Mothers who received Tdap vaccine after 36 weeks' gestation ... were treated as unvaccinated in the analyses of preterm birth."" This prevents the problem where a woman vaccinated after 36 weeks could not possibly have a preterm birth (<37 weeks) after vaccination, any preterm birth would have already occurred.
+
+""We used Cox regression with a time-dependent exposure variable and gestational age in days as the time scale""
+""Follow-up for these time-to-event outcomes commenced 14 days after the last menstrual period.""
+
+Mothers who received Tdap were classified using a time-dependent exposure variable, so follow-up time before vaccination was attributed to the unexposed period. 
+No outcome events were improperly excluded."	N	Exclusions were based on baseline criteria only: non-Ontario residents, age <12 or >50 years, lack of continuous OHIP enrolment, implausible birth weight/gestational age combinations, and missing covariate information 											Low			Y	"Records missing covariate information were excluded"	Y	"About 99% of maternal–newborn records for in-hospital deliveries in Ontario have been successfully linked."	Y	"Records missing covariate information were excluded"																	Low			PN		N				Low			NI		PN		PN		PN		Low				
+		"Preterm Birth (Premature Delivery)       
+Tdap        11,519        ""Preterm: 670
+very preterm: 66""        ""PRETERM BIRTH
+crude HR: 0.99 (95% CI 0.92–1.07)
+IPTW-adjusted estimate HR: 0.98 (95% CI 0.91–1.06)
+
+VERY PRETERM BIRTH
+crude HR: 1.09 (95% CI 0.85–1.39)
+IPTW-adjusted estimate HR: 1.10 (95% CI 0.86–1.41)""        ""Preterm birth (< 37 wk)
+Very preterm birth (< 32 wk)""
+No Tdap        603,694        ""Preterm: 44,929
+very preterm: 7,945""        NR        NR"				Y	"""To generate results adjusted for confounding, we used propensity score methods. We generated a propensity score representing the probability of Tdap vaccine receipt for each mother, using a logistic regression model including all baseline covariates as well as adequacy of prenatal care44 (Appendix 1, Supplemental Tables S2 and S4, and section on coding algorithm for Revised-Graduated Prenatal Care Utilization Index). We transformed the propensity scores into stabilized inverse probability of treatment weights, which were incorporated in all regression models to generate adjusted estimates (Appendix 1, section on propensity score adjustment). 45 All analyses were conducted with SAS Enterprise Guide 7.1 (SAS Institute).
+
+""*Data were weighted with the use of stabilized IPTWs calculated based on propensity scores. Variables included in the propensity score model were maternal age, parity, multiple birth, baby’s sex, preexisting maternal medical conditions (chronic hypertension, diabetes, asthma, heart disease, thyroid disease), fiscal year of conception, maternal world region of birth, Ontario Marginalization Index dimensions (residential instability, material deprivation, dependency, ethnic concentration), rural residence, neighbourhood income quintile, LHIN group and prenatal care index."""	Y	"Covariates derived from validated health administrative databases: ""Data sources are described in Appendix 1, Supplemental Table S1.""
+Confounders like maternal age, parity, preexisting conditions, and prenatal care index were measured using standard ICD-10 codes and billing data."	N		N	"""Using the array approach, we estimated the impact of an unmeasured confounder… a harmful unmeasured confounder would have biased estimates downward… If 20% of unvaccinated mothers and 10% of Tdap-vaccinated mothers had a risk factor that increased the outcome twofold, we would have underestimated the HRs and RRs of study outcomes by 8%.""
+
+Sensitivity analyses suggest residual confounding is unlikely hiding a harmful effect"	Low (except for uncontrolled confounding)			Y	"We identified Tdap vaccination during pregnancy using billing code G847 in the Ontario Health Insurance Plan database. We classified Tdap vaccination as having occurred during pregnancy if it was administered between 14 days after the last menstrual period (estimated by subtracting gestational age from date of birth) to 1 day before delivery."					PN	"""We identified Tdap vaccination during pregnancy using billing code G847 in the Ontario Health Insurance Plan database""
+Billing occured at time of service"	PY	Moderate	2.5: "Ontario currently limits public funding for adult booster Tdap vaccinations to 1 dose. If care providers refrained from billing for Tdap vaccination to avoid additional costs for the mother, exposure may have been misclassified."		Y	"Follow-up for these time-to-event outcomes commenced 14 days after the last menstrual period"	N	"""Mothers who received Tdap vaccine after 36 weeks' gestation ... were treated as unvaccinated in the analyses of preterm birth."" This prevents the problem where a woman vaccinated after 36 weeks could not possibly have a preterm birth (<37 weeks) after vaccination, any preterm birth would have already occurred.
+
+""We used Cox regression with a time-dependent exposure variable and gestational age in days as the time scale""
+""Follow-up for these time-to-event outcomes commenced 14 days after the last menstrual period.""
+
+Mothers who received Tdap were classified using a time-dependent exposure variable, so follow-up time before vaccination was attributed to the unexposed period. 
+No outcome events were improperly excluded."	N	Exclusions were based on baseline criteria only: non-Ontario residents, age <12 or >50 years, lack of continuous OHIP enrolment, implausible birth weight/gestational age combinations, and missing covariate information 											Low			Y	"Records missing covariate information were excluded"	Y	"About 99% of maternal–newborn records for in-hospital deliveries in Ontario have been successfully linked."	Y	"Records missing covariate information were excluded"																	Low			PN		N				Low			NI		PN		PN		PN		Low				
+		"Preeclampsia or Eclampsia (Hypertensive Disorders)
+
+Tdap        11,519        388        ""crude RR: 0.88 (95% CI 0.80–0.97)
+IPTW-adjusted estimate RR: 0.87 (95% CI 0.78–0.96)""        Gestational hypertension
+No Tdap        603,694        23 087        NR        NR"				Y	"""To generate results adjusted for confounding, we used propensity score methods. We generated a propensity score representing the probability of Tdap vaccine receipt for each mother, using a logistic regression model including all baseline covariates as well as adequacy of prenatal care44 (Appendix 1, Supplemental Tables S2 and S4, and section on coding algorithm for Revised-Graduated Prenatal Care Utilization Index). We transformed the propensity scores into stabilized inverse probability of treatment weights, which were incorporated in all regression models to generate adjusted estimates (Appendix 1, section on propensity score adjustment). 45 All analyses were conducted with SAS Enterprise Guide 7.1 (SAS Institute).
+
+""*Data were weighted with the use of stabilized IPTWs calculated based on propensity scores. Variables included in the propensity score model were maternal age, parity, multiple birth, baby’s sex, preexisting maternal medical conditions (chronic hypertension, diabetes, asthma, heart disease, thyroid disease), fiscal year of conception, maternal world region of birth, Ontario Marginalization Index dimensions (residential instability, material deprivation, dependency, ethnic concentration), rural residence, neighbourhood income quintile, LHIN group and prenatal care index."""	Y	"Covariates derived from validated health administrative databases: ""Data sources are described in Appendix 1, Supplemental Table S1.""
+Confounders like maternal age, parity, preexisting conditions, and prenatal care index were measured using standard ICD-10 codes and billing data."	N		N	"""Using the array approach, we estimated the impact of an unmeasured confounder… a harmful unmeasured confounder would have biased estimates downward… If 20% of unvaccinated mothers and 10% of Tdap-vaccinated mothers had a risk factor that increased the outcome twofold, we would have underestimated the HRs and RRs of study outcomes by 8%.""
+
+Sensitivity analyses suggest residual confounding is unlikely hiding a harmful effect"	Low (except for uncontrolled confounding)			Y	"We identified Tdap vaccination during pregnancy using billing code G847 in the Ontario Health Insurance Plan database. We classified Tdap vaccination as having occurred during pregnancy if it was administered between 14 days after the last menstrual period (estimated by subtracting gestational age from date of birth) to 1 day before delivery."					PN	"""We identified Tdap vaccination during pregnancy using billing code G847 in the Ontario Health Insurance Plan database""
+Billing occured at time of service"	PY	Moderate	2.5: "Ontario currently limits public funding for adult booster Tdap vaccinations to 1 dose. If care providers refrained from billing for Tdap vaccination to avoid additional costs for the mother, exposure may have been misclassified."		Y	"Follow-up for these time-to-event outcomes commenced 14 days after the last menstrual period"	N	"""Mothers who received Tdap vaccine after 36 weeks' gestation ... were treated as unvaccinated in the analyses of preterm birth."" This prevents the problem where a woman vaccinated after 36 weeks could not possibly have a preterm birth (<37 weeks) after vaccination, any preterm birth would have already occurred.
+
+""We used Cox regression with a time-dependent exposure variable and gestational age in days as the time scale""
+""Follow-up for these time-to-event outcomes commenced 14 days after the last menstrual period.""
+
+Mothers who received Tdap were classified using a time-dependent exposure variable, so follow-up time before vaccination was attributed to the unexposed period. 
+No outcome events were improperly excluded."	N	Exclusions were based on baseline criteria only: non-Ontario residents, age <12 or >50 years, lack of continuous OHIP enrolment, implausible birth weight/gestational age combinations, and missing covariate information 											Low			Y	"Records missing covariate information were excluded"	Y	"About 99% of maternal–newborn records for in-hospital deliveries in Ontario have been successfully linked."	Y	"Records missing covariate information were excluded"																	Low			PN		N				Low			NI		PN		PN		PN		Low				
+		"Chorioamnionitis
+
+Tdap        11,519        139        ""crude RR: 1.2 (95% CI 1.01–1.42)
+IPTW-adjusted estimate RR: 1.17 (95% CI 0.99–1.39)""        ICD-10-CA diagnostic codes from maternal hospitalization records during pregnancy and delivery
+No Tdap        603,694        6081        NR        NR"				Y	"""To generate results adjusted for confounding, we used propensity score methods. We generated a propensity score representing the probability of Tdap vaccine receipt for each mother, using a logistic regression model including all baseline covariates as well as adequacy of prenatal care44 (Appendix 1, Supplemental Tables S2 and S4, and section on coding algorithm for Revised-Graduated Prenatal Care Utilization Index). We transformed the propensity scores into stabilized inverse probability of treatment weights, which were incorporated in all regression models to generate adjusted estimates (Appendix 1, section on propensity score adjustment). 45 All analyses were conducted with SAS Enterprise Guide 7.1 (SAS Institute).
+
+""*Data were weighted with the use of stabilized IPTWs calculated based on propensity scores. Variables included in the propensity score model were maternal age, parity, multiple birth, baby’s sex, preexisting maternal medical conditions (chronic hypertension, diabetes, asthma, heart disease, thyroid disease), fiscal year of conception, maternal world region of birth, Ontario Marginalization Index dimensions (residential instability, material deprivation, dependency, ethnic concentration), rural residence, neighbourhood income quintile, LHIN group and prenatal care index."""	Y	"Covariates derived from validated health administrative databases: ""Data sources are described in Appendix 1, Supplemental Table S1.""
+Confounders like maternal age, parity, preexisting conditions, and prenatal care index were measured using standard ICD-10 codes and billing data."	N		N	"""Using the array approach, we estimated the impact of an unmeasured confounder… a harmful unmeasured confounder would have biased estimates downward… If 20% of unvaccinated mothers and 10% of Tdap-vaccinated mothers had a risk factor that increased the outcome twofold, we would have underestimated the HRs and RRs of study outcomes by 8%.""
+
+Sensitivity analyses suggest residual confounding is unlikely hiding a harmful effect"	Low (except for uncontrolled confounding)			Y	"We identified Tdap vaccination during pregnancy using billing code G847 in the Ontario Health Insurance Plan database. We classified Tdap vaccination as having occurred during pregnancy if it was administered between 14 days after the last menstrual period (estimated by subtracting gestational age from date of birth) to 1 day before delivery."					PN	"""We identified Tdap vaccination during pregnancy using billing code G847 in the Ontario Health Insurance Plan database""
+Billing occured at time of service"	PY	Moderate	2.5: "Ontario currently limits public funding for adult booster Tdap vaccinations to 1 dose. If care providers refrained from billing for Tdap vaccination to avoid additional costs for the mother, exposure may have been misclassified."		Y	"Follow-up for these time-to-event outcomes commenced 14 days after the last menstrual period"	N	"""Mothers who received Tdap vaccine after 36 weeks' gestation ... were treated as unvaccinated in the analyses of preterm birth."" This prevents the problem where a woman vaccinated after 36 weeks could not possibly have a preterm birth (<37 weeks) after vaccination, any preterm birth would have already occurred.
+
+""We used Cox regression with a time-dependent exposure variable and gestational age in days as the time scale""
+""Follow-up for these time-to-event outcomes commenced 14 days after the last menstrual period.""
+
+Mothers who received Tdap were classified using a time-dependent exposure variable, so follow-up time before vaccination was attributed to the unexposed period. 
+No outcome events were improperly excluded."	N	Exclusions were based on baseline criteria only: non-Ontario residents, age <12 or >50 years, lack of continuous OHIP enrolment, implausible birth weight/gestational age combinations, and missing covariate information 											Low			Y	"Records missing covariate information were excluded"	Y	"About 99% of maternal–newborn records for in-hospital deliveries in Ontario have been successfully linked."	Y	"Records missing covariate information were excluded"																	Low			PN		N				Low			NI		PN		PN		PN		Low				
+		"ALL OTHER Pregnancy-related Adverse Events
+- Postpartum hemorrhage 
+
+Tdap        11,519        324        ""crude RR: 1.00 (95% CI 0.90–1.12)
+IPTW-adjusted estimate RR: 1.01 (95%CI 0.91–1.13)
+
+No Tdap        603,694        16916        NR        NR"				Y	"""To generate results adjusted for confounding, we used propensity score methods. We generated a propensity score representing the probability of Tdap vaccine receipt for each mother, using a logistic regression model including all baseline covariates as well as adequacy of prenatal care44 (Appendix 1, Supplemental Tables S2 and S4, and section on coding algorithm for Revised-Graduated Prenatal Care Utilization Index). We transformed the propensity scores into stabilized inverse probability of treatment weights, which were incorporated in all regression models to generate adjusted estimates (Appendix 1, section on propensity score adjustment). 45 All analyses were conducted with SAS Enterprise Guide 7.1 (SAS Institute).
+
+""*Data were weighted with the use of stabilized IPTWs calculated based on propensity scores. Variables included in the propensity score model were maternal age, parity, multiple birth, baby’s sex, preexisting maternal medical conditions (chronic hypertension, diabetes, asthma, heart disease, thyroid disease), fiscal year of conception, maternal world region of birth, Ontario Marginalization Index dimensions (residential instability, material deprivation, dependency, ethnic concentration), rural residence, neighbourhood income quintile, LHIN group and prenatal care index."""	Y	"Covariates derived from validated health administrative databases: ""Data sources are described in Appendix 1, Supplemental Table S1.""
+Confounders like maternal age, parity, preexisting conditions, and prenatal care index were measured using standard ICD-10 codes and billing data."	N		N	"""Using the array approach, we estimated the impact of an unmeasured confounder… a harmful unmeasured confounder would have biased estimates downward… If 20% of unvaccinated mothers and 10% of Tdap-vaccinated mothers had a risk factor that increased the outcome twofold, we would have underestimated the HRs and RRs of study outcomes by 8%.""
+
+Sensitivity analyses suggest residual confounding is unlikely hiding a harmful effect"	Low (except for uncontrolled confounding)			Y	"We identified Tdap vaccination during pregnancy using billing code G847 in the Ontario Health Insurance Plan database. We classified Tdap vaccination as having occurred during pregnancy if it was administered between 14 days after the last menstrual period (estimated by subtracting gestational age from date of birth) to 1 day before delivery."					PN	"""We identified Tdap vaccination during pregnancy using billing code G847 in the Ontario Health Insurance Plan database""
+Billing occured at time of service"	PY	Moderate	2.5: "Ontario currently limits public funding for adult booster Tdap vaccinations to 1 dose. If care providers refrained from billing for Tdap vaccination to avoid additional costs for the mother, exposure may have been misclassified."		Y	"Follow-up for these time-to-event outcomes commenced 14 days after the last menstrual period"	N	"""Mothers who received Tdap vaccine after 36 weeks' gestation ... were treated as unvaccinated in the analyses of preterm birth."" This prevents the problem where a woman vaccinated after 36 weeks could not possibly have a preterm birth (<37 weeks) after vaccination, any preterm birth would have already occurred.
+
+""We used Cox regression with a time-dependent exposure variable and gestational age in days as the time scale""
+""Follow-up for these time-to-event outcomes commenced 14 days after the last menstrual period.""
+
+Mothers who received Tdap were classified using a time-dependent exposure variable, so follow-up time before vaccination was attributed to the unexposed period. 
+No outcome events were improperly excluded."	N	Exclusions were based on baseline criteria only: non-Ontario residents, age <12 or >50 years, lack of continuous OHIP enrolment, implausible birth weight/gestational age combinations, and missing covariate information 											Low			Y	"Records missing covariate information were excluded"	Y	"About 99% of maternal–newborn records for in-hospital deliveries in Ontario have been successfully linked."	Y	"Records missing covariate information were excluded"																	Low			PN		N				Low			NI		PN		PN		PN		Low				
+		"SERIOUS Adverse Events
+- Severe Postpartum hemorrhage
+
+Tdap        11,519        32        ""
+crude RR: 0.81 (95% CI 0.57–1.16)
+IPTW-adjusted estimate RR: 0.79 (95% CI 0.55–1.13)""        Severe Postpartum hemorrhage
+No Tdap        603,694        2002        NR        NR"				Y	"""To generate results adjusted for confounding, we used propensity score methods. We generated a propensity score representing the probability of Tdap vaccine receipt for each mother, using a logistic regression model including all baseline covariates as well as adequacy of prenatal care44 (Appendix 1, Supplemental Tables S2 and S4, and section on coding algorithm for Revised-Graduated Prenatal Care Utilization Index). We transformed the propensity scores into stabilized inverse probability of treatment weights, which were incorporated in all regression models to generate adjusted estimates (Appendix 1, section on propensity score adjustment). 45 All analyses were conducted with SAS Enterprise Guide 7.1 (SAS Institute).
+
+""*Data were weighted with the use of stabilized IPTWs calculated based on propensity scores. Variables included in the propensity score model were maternal age, parity, multiple birth, baby’s sex, preexisting maternal medical conditions (chronic hypertension, diabetes, asthma, heart disease, thyroid disease), fiscal year of conception, maternal world region of birth, Ontario Marginalization Index dimensions (residential instability, material deprivation, dependency, ethnic concentration), rural residence, neighbourhood income quintile, LHIN group and prenatal care index."""	Y	"Covariates derived from validated health administrative databases: ""Data sources are described in Appendix 1, Supplemental Table S1.""
+Confounders like maternal age, parity, preexisting conditions, and prenatal care index were measured using standard ICD-10 codes and billing data."	N		N	"""Using the array approach, we estimated the impact of an unmeasured confounder… a harmful unmeasured confounder would have biased estimates downward… If 20% of unvaccinated mothers and 10% of Tdap-vaccinated mothers had a risk factor that increased the outcome twofold, we would have underestimated the HRs and RRs of study outcomes by 8%.""
+
+Sensitivity analyses suggest residual confounding is unlikely hiding a harmful effect"	Low (except for uncontrolled confounding)			Y	"We identified Tdap vaccination during pregnancy using billing code G847 in the Ontario Health Insurance Plan database. We classified Tdap vaccination as having occurred during pregnancy if it was administered between 14 days after the last menstrual period (estimated by subtracting gestational age from date of birth) to 1 day before delivery."					PN	"""We identified Tdap vaccination during pregnancy using billing code G847 in the Ontario Health Insurance Plan database""
+Billing occured at time of service"	PY	Moderate	2.5: "Ontario currently limits public funding for adult booster Tdap vaccinations to 1 dose. If care providers refrained from billing for Tdap vaccination to avoid additional costs for the mother, exposure may have been misclassified."		Y	"Follow-up for these time-to-event outcomes commenced 14 days after the last menstrual period"	N	"""Mothers who received Tdap vaccine after 36 weeks' gestation ... were treated as unvaccinated in the analyses of preterm birth."" This prevents the problem where a woman vaccinated after 36 weeks could not possibly have a preterm birth (<37 weeks) after vaccination, any preterm birth would have already occurred.
+
+""We used Cox regression with a time-dependent exposure variable and gestational age in days as the time scale""
+""Follow-up for these time-to-event outcomes commenced 14 days after the last menstrual period.""
+
+Mothers who received Tdap were classified using a time-dependent exposure variable, so follow-up time before vaccination was attributed to the unexposed period. 
+No outcome events were improperly excluded."	N	Exclusions were based on baseline criteria only: non-Ontario residents, age <12 or >50 years, lack of continuous OHIP enrolment, implausible birth weight/gestational age combinations, and missing covariate information 											Low			Y	"Records missing covariate information were excluded"	Y	"About 99% of maternal–newborn records for in-hospital deliveries in Ontario have been successfully linked."	Y	"Records missing covariate information were excluded"																	Low			PN		N				Low			NI		PN		PN		PN		Low				
+		"Safety - Infants
+Small for Gestational Age (growth restriction)
+
+Tdap        11,483        1053        ""crude RR: 0.97 (95% CI 0.91–1.02)
+IPTW-adjusted estimate RR: 0.96(95% CI 0.90–1.02)""        small for gestational age (< 10th percentile for gestational age- and sex-specific birth weight)        Cohort 2 (live birth records only)
+No Tdap        600,445        57,049        NR        NR        "				Y	"""To generate results adjusted for confounding, we used propensity score methods. We generated a propensity score representing the probability of Tdap vaccine receipt for each mother, using a logistic regression model including all baseline covariates as well as adequacy of prenatal care44 (Appendix 1, Supplemental Tables S2 and S4, and section on coding algorithm for Revised-Graduated Prenatal Care Utilization Index). We transformed the propensity scores into stabilized inverse probability of treatment weights, which were incorporated in all regression models to generate adjusted estimates (Appendix 1, section on propensity score adjustment). 45 All analyses were conducted with SAS Enterprise Guide 7.1 (SAS Institute).
+
+""*Data were weighted with the use of stabilized IPTWs calculated based on propensity scores. Variables included in the propensity score model were maternal age, parity, multiple birth, baby’s sex, preexisting maternal medical conditions (chronic hypertension, diabetes, asthma, heart disease, thyroid disease), fiscal year of conception, maternal world region of birth, Ontario Marginalization Index dimensions (residential instability, material deprivation, dependency, ethnic concentration), rural residence, neighbourhood income quintile, LHIN group and prenatal care index."""	Y	"Covariates derived from validated health administrative databases: ""Data sources are described in Appendix 1, Supplemental Table S1.""
+Confounders like maternal age, parity, preexisting conditions, and prenatal care index were measured using standard ICD-10 codes and billing data."	N		N	"""Using the array approach, we estimated the impact of an unmeasured confounder… a harmful unmeasured confounder would have biased estimates downward… If 20% of unvaccinated mothers and 10% of Tdap-vaccinated mothers had a risk factor that increased the outcome twofold, we would have underestimated the HRs and RRs of study outcomes by 8%.""
+
+Sensitivity analyses suggest residual confounding is unlikely hiding a harmful effect"	Low (except for uncontrolled confounding)			Y	"We identified Tdap vaccination during pregnancy using billing code G847 in the Ontario Health Insurance Plan database. We classified Tdap vaccination as having occurred during pregnancy if it was administered between 14 days after the last menstrual period (estimated by subtracting gestational age from date of birth) to 1 day before delivery."					PN	"""We identified Tdap vaccination during pregnancy using billing code G847 in the Ontario Health Insurance Plan database""
+Billing occured at time of service"	PY	Moderate	2.5: "Ontario currently limits public funding for adult booster Tdap vaccinations to 1 dose. If care providers refrained from billing for Tdap vaccination to avoid additional costs for the mother, exposure may have been misclassified."		Y	"Follow-up for these time-to-event outcomes commenced 14 days after the last menstrual period"	N	"""Mothers who received Tdap vaccine after 36 weeks' gestation ... were treated as unvaccinated in the analyses of preterm birth."" This prevents the problem where a woman vaccinated after 36 weeks could not possibly have a preterm birth (<37 weeks) after vaccination, any preterm birth would have already occurred.
+
+""We used Cox regression with a time-dependent exposure variable and gestational age in days as the time scale""
+""Follow-up for these time-to-event outcomes commenced 14 days after the last menstrual period.""
+
+Mothers who received Tdap were classified using a time-dependent exposure variable, so follow-up time before vaccination was attributed to the unexposed period. 
+No outcome events were improperly excluded."	N	Exclusions were based on baseline criteria only: non-Ontario residents, age <12 or >50 years, lack of continuous OHIP enrolment, implausible birth weight/gestational age combinations, and missing covariate information 											Low			Y	"Records missing covariate information were excluded"	Y	"About 99% of maternal–newborn records for in-hospital deliveries in Ontario have been successfully linked."	Y	"Records missing covariate information were excluded"																	Low			PN		N				Low			NI		PN		PN		PN		Low				
+		"NICU Admission
+
+Tdap        11,483        713        ""crude RR: 0.81 (95% CI 0.75–0.87)
+IPTW-adjusted estimate RR: 0.82 (95% CI 0.76–0.88)""        neonatal intensive care unit stay longer than 24 hours
+No Tdap        600,445        46271        NR        NR"				Y	"""To generate results adjusted for confounding, we used propensity score methods. We generated a propensity score representing the probability of Tdap vaccine receipt for each mother, using a logistic regression model including all baseline covariates as well as adequacy of prenatal care44 (Appendix 1, Supplemental Tables S2 and S4, and section on coding algorithm for Revised-Graduated Prenatal Care Utilization Index). We transformed the propensity scores into stabilized inverse probability of treatment weights, which were incorporated in all regression models to generate adjusted estimates (Appendix 1, section on propensity score adjustment). 45 All analyses were conducted with SAS Enterprise Guide 7.1 (SAS Institute).
+
+""*Data were weighted with the use of stabilized IPTWs calculated based on propensity scores. Variables included in the propensity score model were maternal age, parity, multiple birth, baby’s sex, preexisting maternal medical conditions (chronic hypertension, diabetes, asthma, heart disease, thyroid disease), fiscal year of conception, maternal world region of birth, Ontario Marginalization Index dimensions (residential instability, material deprivation, dependency, ethnic concentration), rural residence, neighbourhood income quintile, LHIN group and prenatal care index."""	Y	"Covariates derived from validated health administrative databases: ""Data sources are described in Appendix 1, Supplemental Table S1.""
+Confounders like maternal age, parity, preexisting conditions, and prenatal care index were measured using standard ICD-10 codes and billing data."	N		N	"""Using the array approach, we estimated the impact of an unmeasured confounder… a harmful unmeasured confounder would have biased estimates downward… If 20% of unvaccinated mothers and 10% of Tdap-vaccinated mothers had a risk factor that increased the outcome twofold, we would have underestimated the HRs and RRs of study outcomes by 8%.""
+
+Sensitivity analyses suggest residual confounding is unlikely hiding a harmful effect"	Low (except for uncontrolled confounding)			Y	"We identified Tdap vaccination during pregnancy using billing code G847 in the Ontario Health Insurance Plan database. We classified Tdap vaccination as having occurred during pregnancy if it was administered between 14 days after the last menstrual period (estimated by subtracting gestational age from date of birth) to 1 day before delivery."					PN	"""We identified Tdap vaccination during pregnancy using billing code G847 in the Ontario Health Insurance Plan database""
+Billing occured at time of service"	PY	Moderate	2.5: "Ontario currently limits public funding for adult booster Tdap vaccinations to 1 dose. If care providers refrained from billing for Tdap vaccination to avoid additional costs for the mother, exposure may have been misclassified."		Y	"Follow-up for these time-to-event outcomes commenced 14 days after the last menstrual period"	N	"""Mothers who received Tdap vaccine after 36 weeks' gestation ... were treated as unvaccinated in the analyses of preterm birth."" This prevents the problem where a woman vaccinated after 36 weeks could not possibly have a preterm birth (<37 weeks) after vaccination, any preterm birth would have already occurred.
+
+""We used Cox regression with a time-dependent exposure variable and gestational age in days as the time scale""
+""Follow-up for these time-to-event outcomes commenced 14 days after the last menstrual period.""
+
+Mothers who received Tdap were classified using a time-dependent exposure variable, so follow-up time before vaccination was attributed to the unexposed period. 
+No outcome events were improperly excluded."	N	Exclusions were based on baseline criteria only: non-Ontario residents, age <12 or >50 years, lack of continuous OHIP enrolment, implausible birth weight/gestational age combinations, and missing covariate information 											Low			Y	"Records missing covariate information were excluded"	Y	"About 99% of maternal–newborn records for in-hospital deliveries in Ontario have been successfully linked."	Y	"Records missing covariate information were excluded"																	Low			PN		N				Low			NI		PN		PN		PN		Low				

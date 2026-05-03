@@ -1,0 +1,130 @@
+1. Overview
+This webapp replaces error‑prone spreadsheets with a guided, interactive implementation of the ROBINS‑I V2 risk‑of‑bias tool for non‑randomized studies.
+It supports conditional question logic, automatic judgement algorithms, study document upload (PDF/text) for side‑by‑side review, and an optional AI‑assistant that speeds up the process by suggesting confounding factors, extracting outcomes from papers, and pre‑populating answers with exact quotes.
+
+The app will be built on Replit, using Next.js for frontend/API, Replit PostgreSQL for data storage, and Tailwind CSS for styling.
+
+2. User Workflow (with AI integration)
+Phase 1 – Project & Confounding Factors
+User creates a Systematic Review (SR) project.
+
+AI Step: User describes the SR (population, intervention, comparator, outcomes of interest).
+– The app sends a prompt to an LLM (e.g., OpenAI GPT‑4o) asking: “Identify potential confounding factors and effect modifiers for this review. Classify them as ‘critical confounders’, ‘non‑critical confounders’, or ‘effect modifiers’.”
+– AI returns a bullet list; the user can edit, reclassify, or remove items.
+– This list becomes the pre‑specified confounding factors required by ROBINS‑I and will feed into Domain 1, Question 1.1 later.
+
+Manual step: User also pre‑specifies the list of study outcomes (or can later adjust after AI extraction).
+
+Phase 2 – Study Upload & Outcome Extraction
+User uploads a study PDF (or pastes text) and enters basic metadata (study abbreviation, design).
+
+AI Step:
+– App extracts text from PDF (using pdf.js or similar) and sends it to the LLM with a prompt: “List all outcomes reported in this study, including their effect estimates (if available), and indicate whether they are ‘adjusted’ or ‘unadjusted’.”
+– AI returns a structured list.
+– User reviews and can edit outcome names, mark them as adjusted/unadjusted, and select which outcomes need a ROBINS‑I assessment.
+*Unadjusted outcomes automatically get SN/N to 1.1 and stop; each adjusted outcome gets its own full assessment.*
+
+Phase 3 – ROBINS‑I Assessment (AI‑pre‑filled)
+For each selected outcome, the app opens a full ROBINS‑I form (Preliminary Parts A–D + Domains 1–6).
+
+AI Step:
+– The app sends a detailed prompt to the LLM, stitching in:
+
+The project’s confounding factor list,
+
+The outcome of interest,
+
+The PDF text,
+
+Instructions: “Complete the ROBINS‑I V2 assessment for [outcome]. Use EXACT QUOTES from the article for each description. Suggest an answer for each signalling question.”
+– AI returns suggested answers and quotes for all questions.
+
+The form is pre‑populated with these suggestions. The user can override any field, and all conditional logic remains active.
+
+Phase 4 – Judgement & Export
+As the user finalises answers, the app applies the official ROBINS‑I V2 algorithms to propose domain‑level and overall risk‑of‑bias judgements.
+
+All answers, quotes, and judgements are saved. Assessments can be exported as PDF or CSV.
+
+3. Core Interactive Features (Conditional Logic & Algorithms)
+Implement exactly the flow from the ROBINS‑I cribsheet:
+
+Conditional display & auto‑fill
+Example: Question 1.4 (for variant B) appears only if 1.1 = N, PN, or NI; otherwise, it is hidden and its value is set to N/A (disabled). Changing 1.1 back re‑enables 1.4 and clears the N/A.
+
+Domain branching
+Domain 1 uses Variant A (baseline confounding) when C4 = No; Variant B (time‑varying confounding) when C4 = Yes.
+Domain 4 branches into three sub‑paths (complete case, imputation, alternative method).
+
+Response options are radio buttons / dropdowns with all official choices (Y, PY, WN, SN, PN, N, NI, plus SY, WY where needed).
+
+Algorithmic judgement
+Transcribe the decision tables from the official ROBINS‑I V2 document into code. The default judgement is computed and shown; user can override with justification.
+
+4. Data Model (Relational, not “one table per outcome”)
+A normalised schema for flexibility and scalability:
+
+Table	Purpose
+systematic_review	id, name, description, confounding_factors_json (list with classification)
+study	id, review_id, abbreviation, design, full_text (optional), files[]
+outcome	id, study_id, name, is_adjusted, effect_estimate, etc.
+robins_assessment	id, outcome_id, reviewer_initials, variant (ITT/per‑protocol), preliminary_answers_json, overall_judgement, override_reason, direction
+domain_answer	id, assessment_id, domain_number, answers_json (maps question_id → { value, description }), default_judgement, final_judgement
+answers_json stores each signalling question’s answer and the reviewer’s supporting description (including AI‑suggested quote).
+
+This structure avoids wide, hard‑to‑maintain tables and makes querying the conditional flow easy.
+
+5. Technical Architecture
+Frontend: React (Next.js App Router) + TypeScript + Tailwind CSS
+
+Form state managed with React Context or Zustand for cross‑question dependencies.
+
+Backend/API: Next.js API routes (or app/api) for CRUD operations on reviews, studies, outcomes, assessments.
+
+Database: Replit PostgreSQL (provisioned inside Replit project, free tier sufficient for many assessments).
+
+Hosting: Deploy directly from Replit to a *.replit.app domain.
+
+PDF Handling: react‑pdf to display PDF; pdf.js to extract text for AI prompts.
+
+AI Integration (Optional):
+
+API calls to OpenAI, Anthropic, or similar from your backend.
+
+Store the API key in Replit Secrets (never in client code).
+
+Include a toggle: “Use AI Assistant” – if no key provided, the app works entirely manually.
+
+6. Pre‑populated Example Assessment (Study #1200)
+To demonstrate the tool and help new users, the app will be seeded with a complete, real‑life ROBINS‑I assessment (the Tdap vaccine study you provided).
+
+The systematic_review will be pre‑loaded with the confounding factors list.
+
+The study (Fakhraei 2021) and its outcomes (Stillbirth, Preterm Birth, Preeclampsia, etc.) are inserted.
+
+Each adjusted outcome already has full domain_answer rows with the answers, descriptions, and quotes from your spreadsheet.
+
+This serves as a template that users can view, clone, or learn from.
+
+7. Development Roadmap (Incremental, for Replit Agent)
+Give these instructions to the AI agent one phase at a time to maintain control.
+
+Project Setup – Initialise Next.js + Tailwind + Replit PostgreSQL. Define Prisma/Drizzle schema for SR, Study, Outcome, Assessment, DomainAnswer. Run migrations and seed with the #1200 example data.
+
+Planning Stage UI – Page to create/edit an SR and its confounding factors list. Show the list from the example project.
+
+Preliminary Assessment Flow – Build the form for Parts A–D (specify result, triage, target trial). Implement triage logic: if B2/B3 is Y/PY → halt with Critical.
+
+Domain 1 with Conditional Logic – Create the reusable signalling‑question component that hides/disables based on previous answers. Implement Variant A fully, with the confounding factors list pulled from the project.
+
+All Remaining Domains (2–6) – Reuse the same component logic; branch as needed. Show correct response options.
+
+Judgement Algorithms – Code the decision tables for each domain and for overall risk of bias. Display suggested judgement and allow override.
+
+Study Document Viewer – Integrate PDF upload and a resizable viewer panel for copying quotes.
+
+AI Assistant Module – Add an “AI” button that calls your LLM API for confounding factor suggestions and outcome extraction. Implement a loading state and display AI suggestions in editable lists.
+
+Pre‑fill Assessment with AI – On assessment creation, optionally send the full prompt and pre‑fill answers. User can then review and modify.
+
+Export & Polish – PDF/CSV export, save/load, final styling.
