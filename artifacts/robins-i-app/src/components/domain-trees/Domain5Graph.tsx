@@ -4,7 +4,8 @@ import { useState, useMemo, useEffect } from 'react';
 import {
   QuestionNode, OutcomeNode, mkEdge,
   OUTCOME_C, ARROW, STYLE_GOOD, STYLE_BAD,
-  type QData, type OData, type RiskLevel, type Edge, DomainGraphProps
+  PreviousAnswersPanel,
+  type QData, type OData, type RiskLevel, type Edge, type AnsweredItem, DomainGraphProps
 } from './shared';
 
 const ACCENT = '#4f46e5';
@@ -136,6 +137,22 @@ export default function Domain5Graph({ onOutcome, onAnswersChange, initialAnswer
   const answer = (k: keyof Answers, v: string) => setAnswers(p => ({ ...p, [k]: v }));
   const reset  = () => setAnswers({ q51: null, q52: null, q53: null });
 
+  /* Cascade order: changing an earlier question clears all that follow. */
+  const CASCADE: (keyof Answers)[] = ['q51', 'q52', 'q53'];
+  const QLABELS: Record<keyof Answers, string> = { q51: '5.1', q52: '5.2', q53: '5.3' };
+  const answeredItems: AnsweredItem[] = CASCADE
+    .filter(k => answers[k] !== null)
+    .map(k => ({ key: k, label: QLABELS[k], value: answers[k]! }));
+  const handleChange = (key: string) => {
+    setAnswers(prev => {
+      const idx = CASCADE.indexOf(key as keyof Answers);
+      if (idx === -1) return prev;
+      const next = { ...prev };
+      for (let i = idx; i < CASCADE.length; i++) next[CASCADE[i]] = null;
+      return next;
+    });
+  };
+
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', fontFamily: 'system-ui,sans-serif', background: '#eef2ff' }}>
       <div style={{ background: '#1e1b4b', color: '#fff', padding: '12px 20px', flexShrink: 0 }}>
@@ -152,14 +169,17 @@ export default function Domain5Graph({ onOutcome, onAnswersChange, initialAnswer
       </div>
       <div style={{ borderTop: '1px solid #e2e8f0', background: '#fff', padding: '14px 20px', flexShrink: 0, minHeight: 80 }}>
         {outcome ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <div style={{ background: OUTCOME_C[outcome].bg, color: OUTCOME_C[outcome].text,
-              border: `2px solid ${OUTCOME_C[outcome].border}`,
-              borderRadius: 8, padding: '8px 18px', fontWeight: 700, fontSize: 14 }}>
-              Domain 5: {outcome.toUpperCase()}
+          <>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <div style={{ background: OUTCOME_C[outcome].bg, color: OUTCOME_C[outcome].text,
+                border: `2px solid ${OUTCOME_C[outcome].border}`,
+                borderRadius: 8, padding: '8px 18px', fontWeight: 700, fontSize: 14 }}>
+                Domain 5: {outcome.toUpperCase()}
+              </div>
+              <button onClick={reset} style={{ padding: '6px 14px', border: '1px solid #e2e8f0', borderRadius: 6, cursor: 'pointer', fontSize: 12 }}>↺ Reset</button>
             </div>
-            <button onClick={reset} style={{ padding: '6px 14px', border: '1px solid #e2e8f0', borderRadius: 6, cursor: 'pointer', fontSize: 12 }}>↺ Reset</button>
-          </div>
+            <PreviousAnswersPanel items={answeredItems} onChangeKey={handleChange} accent={ACCENT} />
+          </>
         ) : nextStep ? (
           <div>
             <div style={{ fontSize: 12, color: '#475569', marginBottom: 8 }}>
@@ -176,6 +196,7 @@ export default function Domain5Graph({ onOutcome, onAnswersChange, initialAnswer
                 <button onClick={reset} style={{ padding: '6px 14px', border: '1px solid #e2e8f0', borderRadius: 20, cursor: 'pointer', fontSize: 12, color: '#64748b' }}>↺ Reset</button>
               )}
             </div>
+            <PreviousAnswersPanel items={answeredItems} onChangeKey={handleChange} accent={ACCENT} />
           </div>
         ) : (
           <div style={{ color: '#94a3b8', fontSize: 12 }}>Click an answer to start.</div>

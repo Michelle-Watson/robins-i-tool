@@ -106,4 +106,67 @@ export function mkEdge(id: string, source: string, target: string, label: string
   };
 }
 
+// ─── Answered Questions Panel ─────────────────────────────────────────────────
+
+/** One answered signalling question shown as a pill with a Change button. */
+export interface AnsweredItem {
+  key: string;    // answer state key, e.g. 'q11'
+  label: string;  // short display label, e.g. '1.1'
+  value: string;  // the chosen answer, e.g. 'Y/PY'
+}
+
+/**
+ * Renders a row of answered-question pills beneath the current-step area.
+ * Each pill shows "Q label + chosen value + pencil icon"; clicking it calls
+ * onChangeKey so the host component can clear that answer and all downstream
+ * answers, then re-enter the decision-tree from that point.
+ */
+export function PreviousAnswersPanel({
+  items, onChangeKey, accent,
+}: {
+  items: AnsweredItem[];
+  onChangeKey: (key: string) => void;
+  accent: string;
+}) {
+  if (!items.length) return null;
+  return (
+    <div style={{
+      borderTop: '1px solid #f1f5f9', marginTop: 8, paddingTop: 8,
+      display: 'flex', flexWrap: 'wrap', gap: 5, alignItems: 'center',
+    }}>
+      {/* Label */}
+      <span style={{
+        fontSize: 10, color: '#94a3b8', fontWeight: 700,
+        textTransform: 'uppercase', letterSpacing: 1, marginRight: 4, flexShrink: 0,
+      }}>
+        Answered:
+      </span>
+      {/* One pill per answered question */}
+      {items.map(item => (
+        <button
+          key={item.key}
+          onClick={() => onChangeKey(item.key)}
+          title={`Re-answer question ${item.label} (clears this and all downstream answers)`}
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 4,
+            padding: '3px 8px 3px 10px', borderRadius: 20, cursor: 'pointer',
+            fontSize: 11, border: `1.5px solid ${accent}55`,
+            background: `${accent}0d`, color: '#334155', lineHeight: 1.2,
+          }}
+        >
+          {/* Question number */}
+          <span style={{ opacity: 0.55, fontWeight: 600 }}>{item.label}</span>
+          {/* Chosen value badge */}
+          <span style={{
+            background: accent, color: '#fff', borderRadius: 999,
+            padding: '1px 6px', fontSize: 10, fontWeight: 700, marginLeft: 2,
+          }}>{item.value}</span>
+          {/* Edit icon hint */}
+          <span style={{ opacity: 0.4, fontSize: 10, marginLeft: 1 }}>✎</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
 export type { Node, Edge };

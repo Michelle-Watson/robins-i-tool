@@ -4,7 +4,8 @@ import { useState, useMemo, useEffect } from 'react';
 import {
   QuestionNode, OutcomeNode, mkEdge,
   OUTCOME_C, ARROW, STYLE_GOOD, STYLE_BAD,
-  type QData, type OData, type RiskLevel, type Edge, DomainGraphProps
+  PreviousAnswersPanel,
+  type QData, type OData, type RiskLevel, type Edge, type AnsweredItem, DomainGraphProps
 } from './shared';
 
 const nodeTypes = { q: QuestionNode, o: OutcomeNode };
@@ -178,6 +179,24 @@ export default function Domain1AGraph({ onOutcome, onAnswersChange, initialAnswe
 
   const reset = () => setAnswers({ q11: null, q13: null, q12: null, q14: null });
 
+  /* Cascade order: changing an earlier question clears all that follow it. */
+  const CASCADE: (keyof Answers)[] = ['q11', 'q13', 'q12', 'q14'];
+  const QLABELS: Record<keyof Answers, string> = { q11: '1.1', q13: '1.3', q12: '1.2', q14: '1.4' };
+  /* Build answered pills in cascade order */
+  const answeredItems: AnsweredItem[] = CASCADE
+    .filter(k => answers[k] !== null)
+    .map(k => ({ key: k, label: QLABELS[k], value: answers[k]! }));
+  /* Clear from key onwards so the user can re-answer from that point */
+  const handleChange = (key: string) => {
+    setAnswers(prev => {
+      const idx = CASCADE.indexOf(key as keyof Answers);
+      if (idx === -1) return prev;
+      const next = { ...prev };
+      for (let i = idx; i < CASCADE.length; i++) next[CASCADE[i]] = null;
+      return next;
+    });
+  };
+
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', fontFamily: 'system-ui,sans-serif', background: '#f8fafc' }}>
       <div style={{ background: '#0f172a', color: '#fff', padding: '12px 20px', flexShrink: 0 }}>
@@ -194,16 +213,20 @@ export default function Domain1AGraph({ onOutcome, onAnswersChange, initialAnswe
       </div>
       <div style={{ borderTop: '1px solid #e2e8f0', background: '#fff', padding: '14px 20px', flexShrink: 0, minHeight: 80 }}>
         {outcome ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <div style={{
-              background: OUTCOME_C[outcome].bg, color: OUTCOME_C[outcome].text,
-              border: `2px solid ${OUTCOME_C[outcome].border}`,
-              borderRadius: 8, padding: '8px 18px', fontWeight: 700, fontSize: 14,
-            }}>
-              Domain 1A: {outcome === 'low-except' ? 'LOW RISK OF BIAS*' : outcome.toUpperCase()}
+          /* Fragment allows adding the answered-pills panel below the outcome badge */
+          <>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <div style={{
+                background: OUTCOME_C[outcome].bg, color: OUTCOME_C[outcome].text,
+                border: `2px solid ${OUTCOME_C[outcome].border}`,
+                borderRadius: 8, padding: '8px 18px', fontWeight: 700, fontSize: 14,
+              }}>
+                Domain 1A: {outcome === 'low-except' ? 'LOW RISK OF BIAS*' : outcome.toUpperCase()}
+              </div>
+              <button onClick={reset} style={{ padding: '6px 14px', border: '1px solid #e2e8f0', borderRadius: 6, cursor: 'pointer', fontSize: 12 }}>↺ Reset</button>
             </div>
-            <button onClick={reset} style={{ padding: '6px 14px', border: '1px solid #e2e8f0', borderRadius: 6, cursor: 'pointer', fontSize: 12 }}>↺ Reset</button>
-          </div>
+            <PreviousAnswersPanel items={answeredItems} onChangeKey={handleChange} accent={ACCENT} />
+          </>
         ) : nextStep ? (
           <div>
             <div style={{ fontSize: 12, color: '#475569', marginBottom: 8 }}>
@@ -222,6 +245,8 @@ export default function Domain1AGraph({ onOutcome, onAnswersChange, initialAnswe
                 <button onClick={reset} style={{ padding: '6px 14px', border: '1px solid #e2e8f0', borderRadius: 20, cursor: 'pointer', fontSize: 12, color: '#64748b' }}>↺ Reset</button>
               )}
             </div>
+            {/* Allow re-answering any previously answered question */}
+            <PreviousAnswersPanel items={answeredItems} onChangeKey={handleChange} accent={ACCENT} />
           </div>
         ) : (
           <div style={{ color: '#94a3b8', fontSize: 12 }}>Click an answer option above to trace the path through the graph.</div>
