@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "ROBINS-I V2 Assessment Tool"
+version = "1.0.0"
+id = "artifacts/robins-i-app"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22958
+
+[services.development]
+run = "pnpm --filter @workspace/robins-i-app run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/robins-i-app", "run", "build" ]
+publicDir = "artifacts/robins-i-app/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22958"
+BASE_PATH = "/"

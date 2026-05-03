@@ -1,20 +1,19 @@
-// Export your models here. Add one export per file
-// export * from "./posts";
-//
-// Each model/table should ideally be split into different files.
-// Each model/table should define a Drizzle table, insert schema, and types:
-//
-//   import { pgTable, text, serial } from "drizzle-orm/pg-core";
-//   import { createInsertSchema } from "drizzle-zod";
-//   import { z } from "zod/v4";
-//
-//   export const postsTable = pgTable("posts", {
-//     id: serial("id").primaryKey(),
-//     title: text("title").notNull(),
-//   });
-//
-//   export const insertPostSchema = createInsertSchema(postsTable).omit({ id: true });
-//   export type InsertPost = z.infer<typeof insertPostSchema>;
-//   export type Post = typeof postsTable.$inferSelect;
+/**
+ * schema/index.ts
+ * ──────────────────────────────────────────────────────────────────────────
+ * Central barrel export for all Drizzle table definitions and Zod schemas.
+ *
+ * Import order matters: tables that are referenced by foreign keys must be
+ * exported before the tables that reference them so that the `references()`
+ * callback can resolve the table object at runtime.
+ *
+ * Current dependency order:
+ *   studies  ──FK──►  domain_assessments
+ * ──────────────────────────────────────────────────────────────────────────
+ */
 
-export {}
+// ─── studies (no foreign key dependencies) ───────────────────────────────────
+export * from "./studies";
+
+// ─── domain_assessments (depends on studies via FK) ──────────────────────────
+export * from "./domain_assessments";

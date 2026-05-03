@@ -1,0 +1,99 @@
+function domain1A_judgement(answers) {
+  const q = answers; // e.g. { '1.1':'Y', '1.2':'Y', '1.3':'N', '1.4':'N' }
+
+  // ---------- 1.1 = Y or PY ----------
+  if (q['1.1'] === 'Y' || q['1.1'] === 'PY') {
+
+    // --- 1.3 = N, PN, NI ---
+    if (q['1.3'] === 'N' || q['1.3'] === 'PN' || q['1.3'] === 'NI') {
+
+      if (q['1.2'] === 'Y' || q['1.2'] === 'PY') {
+        if (q['1.4'] === 'N' || q['1.4'] === 'PN') {
+          return 'Low (except for concerns about uncontrolled confounding)';
+        } else if (q['1.4'] === 'Y' || q['1.4'] === 'PY') {
+          return 'Moderate';
+        }
+      }
+      else if (q['1.2'] === 'WN') {
+        if (q['1.4'] === 'N' || q['1.4'] === 'PN') {
+          return 'Moderate';
+        } else if (q['1.4'] === 'Y' || q['1.4'] === 'PY') {
+          return 'Serious';
+        }
+      }
+      else if (q['1.2'] === 'SN' || q['1.2'] === 'NI') {
+        return 'Serious';
+      }
+
+    }
+
+    // --- 1.3 = Y or PY ---
+    if (q['1.3'] === 'Y' || q['1.3'] === 'PY') {
+
+      if (q['1.4'] === 'Y' || q['1.4'] === 'PY') {
+        return 'Critical';
+      }
+      if (q['1.4'] === 'N' || q['1.4'] === 'PN') {
+        if (q['1.2'] === 'Y' || q['1.2'] === 'PY') {
+          return 'Serious';
+        }
+        if (q['1.2'] === 'SN' || q['1.2'] === 'WN' || q['1.2'] === 'NI') {
+          return 'Critical';
+        }
+      }
+
+    }
+
+  }
+
+  // ---------- 1.1 = WN ----------
+  else if (q['1.1'] === 'WN') {
+
+    // --- 1.3 = N, PN, NI ---
+    if (q['1.3'] === 'N' || q['1.3'] === 'PN' || q['1.3'] === 'NI') {
+
+      // User specified: 1.2 = Y/PY/WN and 1.4 = N/PN → Moderate
+      if ((q['1.2'] === 'Y' || q['1.2'] === 'PY' || q['1.2'] === 'WN') &&
+          (q['1.4'] === 'N' || q['1.4'] === 'PN')) {
+        return 'Moderate';
+      }
+
+      // Below: missing sub-branches (e.g., 1.2 = SN/NI, or 1.4 = Y/PY)
+      // Placeholder – you can define these later
+      // For instance, you may want to return 'Serious' for 1.2 = SN/NI, etc.
+      return null;  // undefined, to be filled in
+    }
+
+    // --- 1.3 = Y or PY (same logic as for 1.1 = Y/PY) ---
+    if (q['1.3'] === 'Y' || q['1.3'] === 'PY') {
+
+      if (q['1.4'] === 'Y' || q['1.4'] === 'PY') {
+        return 'Critical';
+      }
+      if (q['1.4'] === 'N' || q['1.4'] === 'PN') {
+        if (q['1.2'] === 'Y' || q['1.2'] === 'PY') {
+          return 'Serious';
+        }
+        if (q['1.2'] === 'SN' || q['1.2'] === 'WN' || q['1.2'] === 'NI') {
+          return 'Critical';
+        }
+      }
+
+    }
+
+  }
+
+  // ---------- 1.1 = SN or NI ----------
+  else if (q['1.1'] === 'SN' || q['1.1'] === 'NI') {
+
+    if (q['1.4'] === 'N' || q['1.4'] === 'PN') {
+      return 'Serious';
+    } else if (q['1.4'] === 'Y' || q['1.4'] === 'PY') {
+      return 'Critical';
+    }
+
+  }
+
+  // Fallback – should not be reached if all branches are defined
+  return null;
+}
