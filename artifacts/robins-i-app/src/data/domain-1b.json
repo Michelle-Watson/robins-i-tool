@@ -1,0 +1,32 @@
+[
+  {
+    "id": "1.1",
+    "text": "Did the authors use an analysis method that was appropriate to control for time-varying as well as baseline confounding?",
+    "responseOptions": ["Y","PY","N","PN","NI"],
+    "showIf": null
+  },
+  {
+    "id": "1.2",
+    "text": "Did the authors control for all the important baseline and time-varying confounding factors for which this was necessary?",
+    "responseOptions": ["Y","PY","WN","SN","NI"],
+    "showIf": "1.1 IN ['Y','PY']"
+  },
+  {
+    "id": "1.3",
+    "text": "Were confounding factors that were controlled for (and for which control was necessary) measured validly and reliably by the variables available in this study?",
+    "responseOptions": ["Y","PY","WN","SN","N","NI"],
+    "showIf": "1.2 IN ['Y','PY','WN']"
+  },
+  {
+    "id": "1.4",
+    "text": "Did the authors control for time-varying factors or other variables measured after the start of intervention?",
+    "responseOptions": ["Y","PY","N","PN","NI"],
+    "showIf": "1.1 IN ['N','PN','NI']"
+  },
+  {
+    "id": "1.5",
+    "text": "Did the use of negative controls, or other considerations, suggest serious uncontrolled confounding?",
+    "responseOptions": ["Y","PY","PN","N"],
+    "showIf": "(1.2 IN ['SN','NI']) OR (1.4 IN ['N','PN','NI'])"
+  }
+]

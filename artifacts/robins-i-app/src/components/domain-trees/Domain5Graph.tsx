@@ -16,11 +16,16 @@ type Answers = {
 };
 
 const BASE_NODES: Node[] = [
-  { id: 'n51', type: 'q', position: { x: 0, y: 280 }, data: { qid: '5.1', shortLabel: 'Measurement of outcome differs by intervention received?', active: false } as QData },
-  { id: 'n52_top', type: 'q', position: { x: 250, y: 80 }, data: { qid: '5.2', shortLabel: 'Outcome assessors aware of intervention received?', active: false } as QData },
-  { id: 'n53_top', type: 'q', position: { x: 500, y: 80 }, data: { qid: '5.3', shortLabel: 'Assessment could be influenced by knowledge of intervention?', active: false } as QData },
-  { id: 'n52_mid', type: 'q', position: { x: 250, y: 280 }, data: { qid: '5.2', shortLabel: 'Outcome assessors aware of intervention received?', active: false } as QData },
-  { id: 'n53_mid', type: 'q', position: { x: 500, y: 280 }, data: { qid: '5.3', shortLabel: 'Assessment could be influenced by knowledge of intervention?', active: false } as QData },
+  /* 5.1 – source: domain-5.json */
+  { id: 'n51', type: 'q', position: { x: 0, y: 280 }, data: { qid: '5.1', shortLabel: 'Could measurement or ascertainment of the outcome have differed between intervention groups?', active: false } as QData },
+  /* 5.2 – source: domain-5.json */
+  { id: 'n52_top', type: 'q', position: { x: 250, y: 80 }, data: { qid: '5.2', shortLabel: 'Were outcome assessors aware of the intervention received by study participants?', active: false } as QData },
+  /* 5.3 – source: domain-5.json */
+  { id: 'n53_top', type: 'q', position: { x: 500, y: 80 }, data: { qid: '5.3', shortLabel: 'Could assessment of the outcome have been influenced by knowledge of the intervention received?', active: false } as QData },
+  /* 5.2 repeated position – source: domain-5.json */
+  { id: 'n52_mid', type: 'q', position: { x: 250, y: 280 }, data: { qid: '5.2', shortLabel: 'Were outcome assessors aware of the intervention received by study participants?', active: false } as QData },
+  /* 5.3 repeated position – source: domain-5.json */
+  { id: 'n53_mid', type: 'q', position: { x: 500, y: 280 }, data: { qid: '5.3', shortLabel: 'Could assessment of the outcome have been influenced by knowledge of the intervention received?', active: false } as QData },
   { id: 'o_low',  type: 'o', position: { x: 800, y: 0   }, data: { level: 'low',      label: 'LOW',      active: false } as OData },
   { id: 'o_mod',  type: 'o', position: { x: 800, y: 130 }, data: { level: 'moderate', label: 'MODERATE', active: false } as OData },
   { id: 'o_ser',  type: 'o', position: { x: 800, y: 310 }, data: { level: 'serious',  label: 'SERIOUS',  active: false } as OData },
@@ -95,12 +100,14 @@ function getActivePath(a: Answers): { nodes: Set<string>; edges: Set<string>; ou
 type Step = { key: keyof Answers; label: string; options: string[] } | null;
 
 function getNextStep(a: Answers): Step {
-  if (!a.q51) return { key: 'q51', label: '5.1  Was the method of outcome assessment different across intervention groups, or not?', options: ['N/PN', 'NI', 'Y/PY'] };
+  /* 5.1 label — source: domain-5.json */
+  if (!a.q51) return { key: 'q51', label: '5.1  Could measurement or ascertainment of the outcome have differed between intervention groups?', options: ['N/PN', 'NI', 'Y/PY'] };
   if (a.q51 === 'Y/PY') return null;
   if (!a.q52) return { key: 'q52', label: '5.2  Were outcome assessors aware of the intervention received by study participants?', options: ['N/PN', 'Y/PY/NI'] };
   if (a.q51 === 'N/PN' && a.q52 === 'N/PN') return null;
   if (a.q51 === 'NI'   && a.q52 === 'N/PN') return null;
-  if (!a.q53) return { key: 'q53', label: '5.3  Could the assessment of the outcome have been influenced by knowledge of the intervention received?', options: a.q51 === 'N/PN' ? ['N/PN', 'WY/NI', 'SY'] : ['WY/N/PN/NI', 'SY'] };
+  /* 5.3 label — source: domain-5.json */
+  if (!a.q53) return { key: 'q53', label: '5.3  Could assessment of the outcome have been influenced by knowledge of the intervention received?', options: a.q51 === 'N/PN' ? ['N/PN', 'WY/NI', 'SY'] : ['WY/N/PN/NI', 'SY'] };
   return null;
 }
 

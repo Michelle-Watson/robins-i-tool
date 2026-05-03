@@ -1,0 +1,32 @@
+[
+  {
+    "id": "2.1",
+    "text": "Were the intervention strategies distinguishable at the time when follow-up would have started in the target trial?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "2.2",
+    "text": "Did all or nearly all outcome events occur after the intervention and comparator strategies could be distinguished?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "2.1 IN ['N','PN','NI']"
+  },
+  {
+    "id": "2.3",
+    "text": "Did the analysis avoid problems arising from intervention strategies that are not distinguishable at the start of follow-up?",
+    "responseOptions": ["NA","SY","WY","PN","N","NI"],
+    "showIf": "2.2 IN ['N','PN','NI']"
+  },
+  {
+    "id": "2.4",
+    "text": "Was classification of intervention status influenced by knowledge of the outcome or risk of the outcome?",
+    "responseOptions": ["SY","WY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "2.5",
+    "text": "Were further classification errors (not influenced by knowledge of the outcome or risk of the outcome) likely?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  }
+]

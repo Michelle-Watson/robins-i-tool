@@ -1,0 +1,68 @@
+[
+  {
+    "id": "4.1",
+    "text": "Were complete data on intervention status available for all, or nearly all, participants?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "4.2",
+    "text": "Were complete data on the outcome available for all, or nearly all, participants?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "4.3",
+    "text": "Were complete data on important confounding variables available for all, or nearly all, participants?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "4.4",
+    "text": "Is the result based on a complete case analysis?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "(4.1 IN ['N','PN','NI']) OR (4.2 IN ['N','PN','NI']) OR (4.3 IN ['N','PN','NI'])"
+  },
+  {
+    "id": "4.5",
+    "text": "Was exclusion from the analysis because of missing data likely to be related to the true value of the outcome?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "4.4 IN ['Y','PY','NI']"
+  },
+  {
+    "id": "4.6",
+    "text": "Is the relationship between the outcome and missingness likely to be explained by the variables in the analysis model?",
+    "responseOptions": ["NA","Y","PY","WN","SN","NI"],
+    "showIf": "4.5 IN ['Y','PY','NI']"
+  },
+  {
+    "id": "4.7",
+    "text": "Was the analysis based on imputing missing values?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": "4.4 IN ['N','PN']"
+  },
+  {
+    "id": "4.8",
+    "text": "Is it reasonable to assume that data were ‘missing at random’ (MAR) or ‘missing completely at random’ (MCAR)?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "4.7 IN ['Y','PY']"
+  },
+  {
+    "id": "4.9",
+    "text": "Was imputation performed appropriately?",
+    "responseOptions": ["NA","Y","PY","WN","SN","NI"],
+    "showIf": "4.8 IN ['Y','PY']"
+  },
+  {
+    "id": "4.10",
+    "text": "Was an appropriate alternative method used to correct for bias due to missing data?",
+    "responseOptions": ["NA","Y","PY","WN","SN","NI"],
+    "showIf": "4.7 IN ['N','PN','NI']"
+  },
+  {
+    "id": "4.11",
+    "text": "Is there evidence that the result was not biased by missing data?",
+    "responseOptions": ["NA","Y","PY","PN","N"],
+    "showIf": "((4.1 IN ['PN','N','NI']) OR (4.2 IN ['PN','N','NI']) OR (4.3 IN ['PN','N','NI'])) AND ((4.5 IN ['Y','PY','NI']) OR (4.9 IN ['WN','SN','NI']) OR (4.10 IN ['WN','SN','NI']))"
+  }
+]

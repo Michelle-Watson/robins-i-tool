@@ -17,20 +17,29 @@ type Answers = {
 };
 
 const BASE_NODES: Node[] = [
-  { id: 'n413', type: 'q', position: { x: 0, y: 300 }, data: { qid: '4.1–4.3', shortLabel: 'Complete data for all participants?', active: false } as QData },
-  { id: 'n44', type: 'q', position: { x: 250, y: 300 }, data: { qid: '4.4', shortLabel: 'Complete case analysis used?', active: false } as QData },
-  { id: 'n45', type: 'q', position: { x: 500, y: 160 }, data: { qid: '4.5', shortLabel: 'Exclusion from analysis related to true value of outcome?', active: false } as QData },
-  { id: 'n46', type: 'q', position: { x: 750, y: 100 }, data: { qid: '4.6', shortLabel: 'Outcome-missingness relationship explained by model?', active: false } as QData },
-  { id: 'n47', type: 'q', position: { x: 500, y: 440 }, data: { qid: '4.7', shortLabel: 'Analysis based on imputing missing values?', active: false } as QData },
-  { id: 'n48', type: 'q', position: { x: 750, y: 380 }, data: { qid: '4.8', shortLabel: 'MAR or MCAR assumption reasonable?', active: false } as QData },
-  { id: 'n49', type: 'q', position: { x: 1000, y: 320 }, data: { qid: '4.9', shortLabel: 'Appropriate imputation method used?', active: false } as QData },
-  { id: 'n410', type: 'q', position: { x: 500, y: 590 }, data: { qid: '4.10', shortLabel: 'Alternative appropriate method used for missing data?', active: false } as QData },
-  { id: 'n411a', type: 'q', position: { x: 1000, y: 0 }, data: { qid: '4.11', shortLabel: 'Evidence that result is not biased by missing data?', active: false } as QData },
-  { id: 'n411b', type: 'q', position: { x: 1000, y: 130 }, data: { qid: '4.11', shortLabel: 'Evidence that result is not biased by missing data?', active: false } as QData },
-  { id: 'n411c', type: 'q', position: { x: 1000, y: 230 }, data: { qid: '4.11', shortLabel: 'Evidence that result is not biased by missing data?', active: false } as QData },
-  { id: 'n411d', type: 'q', position: { x: 1250, y: 260 }, data: { qid: '4.11', shortLabel: 'Evidence that result is not biased by missing data?', active: false } as QData },
-  { id: 'n411e', type: 'q', position: { x: 1250, y: 410 }, data: { qid: '4.11', shortLabel: 'Evidence that result is not biased by missing data?', active: false } as QData },
-  { id: 'n411f', type: 'q', position: { x: 1000, y: 540 }, data: { qid: '4.11', shortLabel: 'Evidence that result is not biased by missing data?', active: false } as QData },
+  /* 4.1–4.3 combined gate node – source: domain-4.json */
+  { id: 'n413', type: 'q', position: { x: 0, y: 300 }, data: { qid: '4.1–4.3', shortLabel: 'Were complete data on intervention status, outcome, and confounding variables available for all, or nearly all, participants?', active: false } as QData },
+  /* 4.4 – source: domain-4.json */
+  { id: 'n44', type: 'q', position: { x: 250, y: 300 }, data: { qid: '4.4', shortLabel: 'Is the result based on a complete case analysis?', active: false } as QData },
+  /* 4.5 – source: domain-4.json */
+  { id: 'n45', type: 'q', position: { x: 500, y: 160 }, data: { qid: '4.5', shortLabel: 'Was exclusion from the analysis because of missing data likely to be related to the true value of the outcome?', active: false } as QData },
+  /* 4.6 – source: domain-4.json */
+  { id: 'n46', type: 'q', position: { x: 750, y: 100 }, data: { qid: '4.6', shortLabel: 'Is the relationship between the outcome and missingness likely to be explained by the variables in the analysis model?', active: false } as QData },
+  /* 4.7 – source: domain-4.json */
+  { id: 'n47', type: 'q', position: { x: 500, y: 440 }, data: { qid: '4.7', shortLabel: 'Was the analysis based on imputing missing values?', active: false } as QData },
+  /* 4.8 – source: domain-4.json */
+  { id: 'n48', type: 'q', position: { x: 750, y: 380 }, data: { qid: '4.8', shortLabel: 'Is it reasonable to assume that data were missing at random (MAR) or missing completely at random (MCAR)?', active: false } as QData },
+  /* 4.9 – source: domain-4.json */
+  { id: 'n49', type: 'q', position: { x: 1000, y: 320 }, data: { qid: '4.9', shortLabel: 'Was imputation performed appropriately?', active: false } as QData },
+  /* 4.10 – source: domain-4.json */
+  { id: 'n410', type: 'q', position: { x: 500, y: 590 }, data: { qid: '4.10', shortLabel: 'Was an appropriate alternative method used to correct for bias due to missing data?', active: false } as QData },
+  /* 4.11 – source: domain-4.json (repeated at multiple positions in the tree) */
+  { id: 'n411a', type: 'q', position: { x: 1000, y: 0 }, data: { qid: '4.11', shortLabel: 'Is there evidence that the result was not biased by missing data?', active: false } as QData },
+  { id: 'n411b', type: 'q', position: { x: 1000, y: 130 }, data: { qid: '4.11', shortLabel: 'Is there evidence that the result was not biased by missing data?', active: false } as QData },
+  { id: 'n411c', type: 'q', position: { x: 1000, y: 230 }, data: { qid: '4.11', shortLabel: 'Is there evidence that the result was not biased by missing data?', active: false } as QData },
+  { id: 'n411d', type: 'q', position: { x: 1250, y: 260 }, data: { qid: '4.11', shortLabel: 'Is there evidence that the result was not biased by missing data?', active: false } as QData },
+  { id: 'n411e', type: 'q', position: { x: 1250, y: 410 }, data: { qid: '4.11', shortLabel: 'Is there evidence that the result was not biased by missing data?', active: false } as QData },
+  { id: 'n411f', type: 'q', position: { x: 1000, y: 540 }, data: { qid: '4.11', shortLabel: 'Is there evidence that the result was not biased by missing data?', active: false } as QData },
   { id: 'o_low',  type: 'o', position: { x: 1520, y: 0   }, data: { level: 'low',      label: 'LOW',      active: false } as OData },
   { id: 'o_mod',  type: 'o', position: { x: 1520, y: 130 }, data: { level: 'moderate', label: 'MODERATE', active: false } as OData },
   { id: 'o_ser',  type: 'o', position: { x: 1520, y: 290 }, data: { level: 'serious',  label: 'SERIOUS',  active: false } as OData },
@@ -169,33 +178,41 @@ type Step = { key: keyof Answers; label: string; options: string[] } | null;
 const Q411_LABEL = '4.11  Is there evidence that the result was not biased by missing data?';
 
 function getNextStep(a: Answers): Step {
-  if (!a.q413) return { key: 'q413', label: '4.1–4.3  Are outcome data reasonably complete for all participants?', options: ['All Y/PY', 'Any N/PN/NI'] };
+  /* 4.1–4.3 label — source: domain-4.json (combined gate for 3 data-completeness questions) */
+  if (!a.q413) return { key: 'q413', label: '4.1–4.3  Were complete data on intervention status, outcome, and confounding variables available for all, or nearly all, participants?', options: ['All Y/PY', 'Any N/PN/NI'] };
   if (a.q413 === 'All Y/PY') return null;
 
-  if (!a.q44) return { key: 'q44', label: '4.4  Were outcomes only analysed for participants with complete data?', options: ['Y/PY/NI', 'N/PN'] };
+  /* 4.4 label — source: domain-4.json */
+  if (!a.q44) return { key: 'q44', label: '4.4  Is the result based on a complete case analysis?', options: ['Y/PY/NI', 'N/PN'] };
 
   if (a.q44 === 'N/PN') {
-    if (!a.q47) return { key: 'q47', label: '4.7  Was the analysis based on imputing the missing values?', options: ['Y/PY', 'N/PN/NI'] };
+    /* 4.7 label — source: domain-4.json */
+    if (!a.q47) return { key: 'q47', label: '4.7  Was the analysis based on imputing missing values?', options: ['Y/PY', 'N/PN/NI'] };
     if (a.q47 === 'Y/PY') {
-      if (!a.q48) return { key: 'q48', label: '4.8  Is the MAR or MCAR assumption reasonable?', options: ['Y/PY', 'N/PN/NI'] };
+      /* 4.8 label — source: domain-4.json */
+      if (!a.q48) return { key: 'q48', label: '4.8  Is it reasonable to assume that data were missing at random (MAR) or missing completely at random (MCAR)?', options: ['Y/PY', 'N/PN/NI'] };
       if (a.q48 === 'Y/PY') {
-        if (!a.q49) return { key: 'q49', label: '4.9  Was an appropriate imputation method used?', options: ['Y/PY', 'WN/NI', 'SN'] };
+        /* 4.9 label — source: domain-4.json */
+        if (!a.q49) return { key: 'q49', label: '4.9  Was imputation performed appropriately?', options: ['Y/PY', 'WN/NI', 'SN'] };
         if (a.q49 === 'SN') return null;
         if (!a.q411) return { key: 'q411', label: Q411_LABEL, options: ['Y/PY', 'N/PN'] };
       } else {
         if (!a.q411) return { key: 'q411', label: Q411_LABEL, options: ['Y/PY', 'N/PN'] };
       }
     } else {
-      if (!a.q410) return { key: 'q410', label: '4.10  Was an alternative appropriate method used to handle missing data?', options: ['Y/PY', 'WN/NI', 'SN'] };
+      /* 4.10 label — source: domain-4.json */
+      if (!a.q410) return { key: 'q410', label: '4.10  Was an appropriate alternative method used to correct for bias due to missing data?', options: ['Y/PY', 'WN/NI', 'SN'] };
       if (a.q410 === 'Y/PY' || a.q410 === 'SN') return null;
       if (!a.q411) return { key: 'q411', label: Q411_LABEL, options: ['Y/PY', 'N/PN'] };
     }
   } else {
-    if (!a.q45) return { key: 'q45', label: '4.5  Were the exclusions from analysis related to the true value of the outcome?', options: ['N/PN', 'Y/PY/NI'] };
+    /* 4.5 label — source: domain-4.json */
+    if (!a.q45) return { key: 'q45', label: '4.5  Was exclusion from the analysis because of missing data likely to be related to the true value of the outcome?', options: ['N/PN', 'Y/PY/NI'] };
     if (a.q45 === 'N/PN') {
       if (!a.q411) return { key: 'q411', label: Q411_LABEL, options: ['Y/PY', 'N/PN'] };
     } else {
-      if (!a.q46) return { key: 'q46', label: '4.6  Was the outcome-missingness relationship appropriately modelled?', options: ['Y/PY', 'WN/NI', 'SN'] };
+      /* 4.6 label — source: domain-4.json */
+      if (!a.q46) return { key: 'q46', label: '4.6  Is the relationship between the outcome and missingness likely to be explained by the variables in the analysis model?', options: ['Y/PY', 'WN/NI', 'SN'] };
       if (a.q46 === 'SN') return null;
       if (!a.q411) return { key: 'q411', label: Q411_LABEL, options: ['Y/PY', 'N/PN'] };
     }

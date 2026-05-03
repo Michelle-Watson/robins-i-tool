@@ -20,20 +20,28 @@ type Answers = {
 };
 
 const BASE_NODES: Node[] = [
-  { id: 'n31', type: 'q', position: { x: 0, y: 70 }, data: { qid: '3.1', shortLabel: 'Participants followed from start of intervention?', active: false } as QData },
-  { id: 'n32', type: 'q', position: { x: 250, y: 10 }, data: { qid: '3.2', shortLabel: 'Early outcome events excluded?', active: false } as QData },
+  /* 3.1 – source: domain-3.json */
+  { id: 'n31', type: 'q', position: { x: 0, y: 70 }, data: { qid: '3.1', shortLabel: 'Did follow-up in the analysis begin at the start of the intervention strategies being compared?', active: false } as QData },
+  /* 3.2 – source: domain-3.json */
+  { id: 'n32', type: 'q', position: { x: 250, y: 10 }, data: { qid: '3.2', shortLabel: 'Were outcome events during a period of follow-up after the start of the interventions excluded from the analysis?', active: false } as QData },
   { id: 'a_low',  type: 'o', position: { x: 530, y: 0  }, data: { level: 'low',      label: 'A: LOW',      active: false } as OData },
   { id: 'a_mod',  type: 'o', position: { x: 530, y: 100 }, data: { level: 'moderate', label: 'A: MOD',      active: false } as OData },
   { id: 'a_ser',  type: 'o', position: { x: 530, y: 200 }, data: { level: 'serious',  label: 'A: SERIOUS',  active: false } as OData },
-  { id: 'n33', type: 'q', position: { x: 0, y: 430 }, data: { qid: '3.3', shortLabel: 'Selection based on characteristics after start of intervention?', active: false } as QData },
-  { id: 'n34', type: 'q', position: { x: 250, y: 500 }, data: { qid: '3.4', shortLabel: 'Selection variables associated with intervention?', active: false } as QData },
-  { id: 'n35', type: 'q', position: { x: 500, y: 500 }, data: { qid: '3.5', shortLabel: 'Selection variables influenced by outcome?', active: false } as QData },
+  /* 3.3 – source: domain-3.json */
+  { id: 'n33', type: 'q', position: { x: 0, y: 430 }, data: { qid: '3.3', shortLabel: 'Was selection of participants into the study (or into the analysis) based on participant characteristics observed after the start of intervention (additional to the situations addressed in 3.1 and 3.2)?', active: false } as QData },
+  /* 3.4 – source: domain-3.json */
+  { id: 'n34', type: 'q', position: { x: 250, y: 500 }, data: { qid: '3.4', shortLabel: 'Were the post-intervention variables that influenced selection likely to be associated with intervention?', active: false } as QData },
+  /* 3.5 – source: domain-3.json */
+  { id: 'n35', type: 'q', position: { x: 500, y: 500 }, data: { qid: '3.5', shortLabel: 'Were the post-intervention variables that influenced selection likely to be influenced by the outcome or a cause of the outcome?', active: false } as QData },
   { id: 'b_low',  type: 'o', position: { x: 530, y: 380 }, data: { level: 'low',      label: 'B: LOW',     active: false } as OData },
   { id: 'b_mod',  type: 'o', position: { x: 530, y: 480 }, data: { level: 'moderate', label: 'B: MOD',     active: false } as OData },
   { id: 'b_ser',  type: 'o', position: { x: 530, y: 580 }, data: { level: 'serious',  label: 'B: SERIOUS', active: false } as OData },
-  { id: 'n36', type: 'q', position: { x: 780, y: 290 }, data: { qid: '3.6', shortLabel: 'Analysis corrected for selection biases?', active: false } as QData },
-  { id: 'n37', type: 'q', position: { x: 980, y: 290 }, data: { qid: '3.7', shortLabel: 'Sensitivity analyses demonstrate minimal impact?', active: false } as QData },
-  { id: 'n38', type: 'q', position: { x: 1180, y: 290 }, data: { qid: '3.8', shortLabel: 'Selection biases severe?', active: false } as QData },
+  /* 3.6 – source: domain-3.json */
+  { id: 'n36', type: 'q', position: { x: 780, y: 290 }, data: { qid: '3.6', shortLabel: 'Is it likely that the analysis corrected for all of the potential selection biases identified above?', active: false } as QData },
+  /* 3.7 – source: domain-3.json */
+  { id: 'n37', type: 'q', position: { x: 980, y: 290 }, data: { qid: '3.7', shortLabel: 'Did sensitivity analyses demonstrate that the likely impact of the potential selection biases identified above was minimal?', active: false } as QData },
+  /* 3.8 – source: domain-3.json */
+  { id: 'n38', type: 'q', position: { x: 1180, y: 290 }, data: { qid: '3.8', shortLabel: 'Were potential selection biases identified above sufficiently severe that the result should not be included in a quantitative synthesis?', active: false } as QData },
   { id: 'o_low',  type: 'o', position: { x: 1420, y: 0   }, data: { level: 'low',      label: 'LOW',      active: false } as OData },
   { id: 'o_mod',  type: 'o', position: { x: 1420, y: 150 }, data: { level: 'moderate', label: 'MODERATE', active: false } as OData },
   { id: 'o_ser',  type: 'o', position: { x: 1420, y: 330 }, data: { level: 'serious',  label: 'SERIOUS',  active: false } as OData },
@@ -176,12 +184,17 @@ function getActivePath(a: Answers): { nodes: Set<string>; edges: Set<string>; ou
 type Step = { key: keyof Answers; label: string; options: string[]; section: string } | null;
 
 function getNextStep(a: Answers): Step {
-  if (!a.q31) return { key: 'q31', section: 'Sub-graph A', label: '3.1  Were all participants in the study followed from the start of the intervention?', options: ['Y/PY', 'WN/NI', 'SY'] };
-  if (a.q31 === 'Y/PY' && !a.q32) return { key: 'q32', section: 'Sub-graph A', label: '3.2  Were early outcome events excluded from the analysis?', options: ['N/PN/NI', 'Y/PY'] };
+  /* 3.1 label — source: domain-3.json */
+  if (!a.q31) return { key: 'q31', section: 'Sub-graph A', label: '3.1  Did follow-up in the analysis begin at the start of the intervention strategies being compared?', options: ['Y/PY', 'WN/NI', 'SY'] };
+  /* 3.2 label — source: domain-3.json */
+  if (a.q31 === 'Y/PY' && !a.q32) return { key: 'q32', section: 'Sub-graph A', label: '3.2  Were outcome events during a period of follow-up after the start of the interventions excluded from the analysis?', options: ['N/PN/NI', 'Y/PY'] };
 
-  if (!a.q33) return { key: 'q33', section: 'Sub-graph B', label: '3.3  Was selection of participants into the study (or into the analysis) based on characteristics of participants observed after the start of the intervention?', options: ['N/PN', 'NI', 'Y/PY'] };
-  if (a.q33 === 'Y/PY' && !a.q34) return { key: 'q34', section: 'Sub-graph B', label: '3.4  Were the variables used to select participants associated with intervention?', options: ['N/PN', 'NI', 'Y/PY'] };
-  if (a.q33 === 'Y/PY' && a.q34 === 'Y/PY' && !a.q35) return { key: 'q35', section: 'Sub-graph B', label: '3.5  Were the variables used to select participants associated with outcome or risk of outcome?', options: ['N/PN', 'NI', 'Y/PY'] };
+  /* 3.3 label — source: domain-3.json */
+  if (!a.q33) return { key: 'q33', section: 'Sub-graph B', label: '3.3  Was selection of participants into the study (or into the analysis) based on participant characteristics observed after the start of intervention (additional to the situations addressed in 3.1 and 3.2)?', options: ['N/PN', 'NI', 'Y/PY'] };
+  /* 3.4 label — source: domain-3.json */
+  if (a.q33 === 'Y/PY' && !a.q34) return { key: 'q34', section: 'Sub-graph B', label: '3.4  Were the post-intervention variables that influenced selection likely to be associated with intervention?', options: ['N/PN', 'NI', 'Y/PY'] };
+  /* 3.5 label — source: domain-3.json */
+  if (a.q33 === 'Y/PY' && a.q34 === 'Y/PY' && !a.q35) return { key: 'q35', section: 'Sub-graph B', label: '3.5  Were the post-intervention variables that influenced selection likely to be influenced by the outcome or a cause of the outcome?', options: ['N/PN', 'NI', 'Y/PY'] };
 
   const subA = getSubA(a);
   const subB = getSubB(a);
@@ -190,9 +203,12 @@ function getNextStep(a: Answers): Step {
   const worst = SEVERITY[subA] >= SEVERITY[subB] ? subA : subB;
   if (worst !== 'serious') return null;
 
-  if (!a.q36) return { key: 'q36', section: 'Combined', label: '3.6  Was the analysis corrected for selection bias?', options: ['Y/PY', 'N/PN/NI'] };
-  if (a.q36 !== 'Y/PY' && !a.q37) return { key: 'q37', section: 'Combined', label: '3.7  Did sensitivity analyses demonstrate that the results were not sensitive to any plausible selection bias?', options: ['Y/PY', 'N/PN/NI'] };
-  if (a.q37 !== 'Y/PY' && !a.q38) return { key: 'q38', section: 'Combined', label: '3.8  Were selection biases likely to be severe?', options: ['Y/PY', 'N/PN/NI'] };
+  /* 3.6 label — source: domain-3.json */
+  if (!a.q36) return { key: 'q36', section: 'Combined', label: '3.6  Is it likely that the analysis corrected for all of the potential selection biases identified above?', options: ['Y/PY', 'N/PN/NI'] };
+  /* 3.7 label — source: domain-3.json */
+  if (a.q36 !== 'Y/PY' && !a.q37) return { key: 'q37', section: 'Combined', label: '3.7  Did sensitivity analyses demonstrate that the likely impact of the potential selection biases identified above was minimal?', options: ['Y/PY', 'N/PN/NI'] };
+  /* 3.8 label — source: domain-3.json */
+  if (a.q37 !== 'Y/PY' && !a.q38) return { key: 'q38', section: 'Combined', label: '3.8  Were potential selection biases identified above sufficiently severe that the result should not be included in a quantitative synthesis?', options: ['Y/PY', 'N/PN/NI'] };
 
   return null;
 }

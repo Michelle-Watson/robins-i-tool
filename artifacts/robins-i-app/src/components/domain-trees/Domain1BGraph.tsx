@@ -16,14 +16,19 @@ type Answers = {
 };
 
 const BASE_NODES: Node[] = [
-  { id: 'n11', type: 'q', position: { x: 0, y: 340 }, data: { qid: '1.1', shortLabel: 'Appropriate analysis method (e.g. G-estimation)?', active: false } as QData },
-  { id: 'n12', type: 'q', position: { x: 240, y: 190 }, data: { qid: '1.2', shortLabel: 'Controlled for all important confounding factors?', active: false } as QData },
-  { id: 'n13_top', type: 'q', position: { x: 490, y: 40 }, data: { qid: '1.3', shortLabel: 'Confounders measured validly and reliably?', active: false } as QData },
-  { id: 'n13_mid', type: 'q', position: { x: 490, y: 260 }, data: { qid: '1.3', shortLabel: 'Confounders measured validly and reliably?', active: false } as QData },
-  { id: 'n14', type: 'q', position: { x: 240, y: 520 }, data: { qid: '1.4', shortLabel: 'Controlled for post-intervention variables?', active: false } as QData },
-  { id: 'n15_top', type: 'q', position: { x: 760, y: 0 }, data: { qid: '1.5', shortLabel: 'Neg controls suggest serious uncontrolled confounding?', active: false } as QData },
-  { id: 'n15_mid', type: 'q', position: { x: 760, y: 215 }, data: { qid: '1.5', shortLabel: 'Neg controls suggest serious uncontrolled confounding?', active: false } as QData },
-  { id: 'n15_bot', type: 'q', position: { x: 760, y: 430 }, data: { qid: '1.5', shortLabel: 'Neg controls suggest serious uncontrolled confounding?', active: false } as QData },
+  /* 1.1 – source: domain-1b.json */
+  { id: 'n11', type: 'q', position: { x: 0, y: 340 }, data: { qid: '1.1', shortLabel: 'Did the authors use an analysis method that was appropriate to control for time-varying as well as baseline confounding?', active: false } as QData },
+  /* 1.2 – source: domain-1b.json */
+  { id: 'n12', type: 'q', position: { x: 240, y: 190 }, data: { qid: '1.2', shortLabel: 'Did the authors control for all the important baseline and time-varying confounding factors for which this was necessary?', active: false } as QData },
+  /* 1.3 – source: domain-1b.json */
+  { id: 'n13_top', type: 'q', position: { x: 490, y: 40 }, data: { qid: '1.3', shortLabel: 'Were confounding factors that were controlled for (and for which control was necessary) measured validly and reliably by the variables available in this study?', active: false } as QData },
+  { id: 'n13_mid', type: 'q', position: { x: 490, y: 260 }, data: { qid: '1.3', shortLabel: 'Were confounding factors that were controlled for (and for which control was necessary) measured validly and reliably by the variables available in this study?', active: false } as QData },
+  /* 1.4 – source: domain-1b.json */
+  { id: 'n14', type: 'q', position: { x: 240, y: 520 }, data: { qid: '1.4', shortLabel: 'Did the authors control for time-varying factors or other variables measured after the start of intervention?', active: false } as QData },
+  /* 1.5 – source: domain-1b.json */
+  { id: 'n15_top', type: 'q', position: { x: 760, y: 0 }, data: { qid: '1.5', shortLabel: 'Did the use of negative controls, or other considerations, suggest serious uncontrolled confounding?', active: false } as QData },
+  { id: 'n15_mid', type: 'q', position: { x: 760, y: 215 }, data: { qid: '1.5', shortLabel: 'Did the use of negative controls, or other considerations, suggest serious uncontrolled confounding?', active: false } as QData },
+  { id: 'n15_bot', type: 'q', position: { x: 760, y: 430 }, data: { qid: '1.5', shortLabel: 'Did the use of negative controls, or other considerations, suggest serious uncontrolled confounding?', active: false } as QData },
   { id: 'o_low',     type: 'o', position: { x: 1060, y: 0   }, data: { level: 'low',        label: 'LOW RISK OF BIAS',   active: false } as OData },
   { id: 'o_low_exc', type: 'o', position: { x: 1060, y: 120 }, data: { level: 'low-except', label: 'LOW*\n(uncontrolled confounding concern)', active: false } as OData },
   { id: 'o_mod',     type: 'o', position: { x: 1060, y: 260 }, data: { level: 'moderate',   label: 'MODERATE',           active: false } as OData },
@@ -114,15 +119,16 @@ function getActivePath(a: Answers): { nodes: Set<string>; edges: Set<string>; ou
 }
 
 type Step = { key: keyof Answers; label: string; options: string[] } | null;
+/* QLabels — exact text from domain-1b.json; all variant keys for the same question share identical text */
 const QLabels = {
-  q11: '1.1  Was the intervention status of participants the same at the start of follow-up as at the start of the period of recruitment?',
-  q12: '1.2  Did the authors control for all the important baseline and time-varying confounding factors for which this was necessary?',
-  q13top: '1.3  (from 1.2=Y/PY) Were confounding factors measured validly and reliably by variables in this study?',
-  q13mid: '1.3  (from 1.2=WN) Were confounding factors measured validly and reliably by variables in this study?',
-  q14: '1.4  Did the authors control for time-varying factors or variables measured after the start of intervention?',
-  q15top: '1.5  (top path) Do negative controls or other considerations suggest serious uncontrolled confounding?',
-  q15mid: '1.5  (mid path) Do negative controls or other considerations suggest serious uncontrolled confounding?',
-  q15bot: '1.5  (bottom path) Do negative controls or other considerations suggest serious uncontrolled confounding?',
+  q11:    '1.1  Did the authors use an analysis method that was appropriate to control for time-varying as well as baseline confounding?',
+  q12:    '1.2  Did the authors control for all the important baseline and time-varying confounding factors for which this was necessary?',
+  q13top: '1.3  Were confounding factors that were controlled for (and for which control was necessary) measured validly and reliably by the variables available in this study?',
+  q13mid: '1.3  Were confounding factors that were controlled for (and for which control was necessary) measured validly and reliably by the variables available in this study?',
+  q14:    '1.4  Did the authors control for time-varying factors or other variables measured after the start of intervention?',
+  q15top: '1.5  Did the use of negative controls, or other considerations, suggest serious uncontrolled confounding?',
+  q15mid: '1.5  Did the use of negative controls, or other considerations, suggest serious uncontrolled confounding?',
+  q15bot: '1.5  Did the use of negative controls, or other considerations, suggest serious uncontrolled confounding?',
 };
 
 function getNextStep(a: Answers): Step {

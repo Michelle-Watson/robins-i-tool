@@ -16,15 +16,20 @@ type Answers = {
 };
 
 const BASE_NODES: Node[] = [
-  { id: 'n21', type: 'q', position: { x: 0, y: 200 }, data: { qid: '2.1', shortLabel: 'Intervention distinguishable at start of follow-up?', active: false } as QData },
-  { id: 'n22', type: 'q', position: { x: 240, y: 320 }, data: { qid: '2.2', shortLabel: 'Almost all outcome events after strategies distinguishable?', active: false } as QData },
-  { id: 'n23', type: 'q', position: { x: 480, y: 400 }, data: { qid: '2.3', shortLabel: 'Appropriate analysis?', active: false } as QData },
-  { id: 'n24_top', type: 'q', position: { x: 480, y: 80 }, data: { qid: '2.4', shortLabel: 'Classification of intervention influenced by outcome?', active: false } as QData },
-  { id: 'n24_mid', type: 'q', position: { x: 730, y: 310 }, data: { qid: '2.4', shortLabel: 'Classification of intervention influenced by outcome?', active: false } as QData },
-  { id: 'n24_bot', type: 'q', position: { x: 730, y: 450 }, data: { qid: '2.4', shortLabel: 'Classification of intervention influenced by outcome?', active: false } as QData },
-  { id: 'n25_top', type: 'q', position: { x: 980, y: 0 }, data: { qid: '2.5', shortLabel: 'Further classification errors likely?', active: false } as QData },
-  { id: 'n25_mid', type: 'q', position: { x: 980, y: 180 }, data: { qid: '2.5', shortLabel: 'Further classification errors likely?', active: false } as QData },
-  { id: 'n25_bot', type: 'q', position: { x: 980, y: 380 }, data: { qid: '2.5', shortLabel: 'Further classification errors likely?', active: false } as QData },
+  /* 2.1 – source: domain-2.json */
+  { id: 'n21', type: 'q', position: { x: 0, y: 200 }, data: { qid: '2.1', shortLabel: 'Were the intervention strategies distinguishable at the time when follow-up would have started in the target trial?', active: false } as QData },
+  /* 2.2 – source: domain-2.json */
+  { id: 'n22', type: 'q', position: { x: 240, y: 320 }, data: { qid: '2.2', shortLabel: 'Did all or nearly all outcome events occur after the intervention and comparator strategies could be distinguished?', active: false } as QData },
+  /* 2.3 – source: domain-2.json */
+  { id: 'n23', type: 'q', position: { x: 480, y: 400 }, data: { qid: '2.3', shortLabel: 'Did the analysis avoid problems arising from intervention strategies that are not distinguishable at the start of follow-up?', active: false } as QData },
+  /* 2.4 – source: domain-2.json */
+  { id: 'n24_top', type: 'q', position: { x: 480, y: 80 }, data: { qid: '2.4', shortLabel: 'Was classification of intervention status influenced by knowledge of the outcome or risk of the outcome?', active: false } as QData },
+  { id: 'n24_mid', type: 'q', position: { x: 730, y: 310 }, data: { qid: '2.4', shortLabel: 'Was classification of intervention status influenced by knowledge of the outcome or risk of the outcome?', active: false } as QData },
+  { id: 'n24_bot', type: 'q', position: { x: 730, y: 450 }, data: { qid: '2.4', shortLabel: 'Was classification of intervention status influenced by knowledge of the outcome or risk of the outcome?', active: false } as QData },
+  /* 2.5 – source: domain-2.json */
+  { id: 'n25_top', type: 'q', position: { x: 980, y: 0 }, data: { qid: '2.5', shortLabel: 'Were further classification errors (not influenced by knowledge of the outcome or risk of the outcome) likely?', active: false } as QData },
+  { id: 'n25_mid', type: 'q', position: { x: 980, y: 180 }, data: { qid: '2.5', shortLabel: 'Were further classification errors (not influenced by knowledge of the outcome or risk of the outcome) likely?', active: false } as QData },
+  { id: 'n25_bot', type: 'q', position: { x: 980, y: 380 }, data: { qid: '2.5', shortLabel: 'Were further classification errors (not influenced by knowledge of the outcome or risk of the outcome) likely?', active: false } as QData },
   { id: 'o_low',  type: 'o', position: { x: 1260, y: 0   }, data: { level: 'low',      label: 'LOW',      active: false } as OData },
   { id: 'o_mod',  type: 'o', position: { x: 1260, y: 120 }, data: { level: 'moderate', label: 'MODERATE', active: false } as OData },
   { id: 'o_ser',  type: 'o', position: { x: 1260, y: 280 }, data: { level: 'serious',  label: 'SERIOUS',  active: false } as OData },
@@ -125,17 +130,22 @@ function getActivePath(a: Answers): { nodes: Set<string>; edges: Set<string>; ou
 type Step = { key: keyof Answers; label: string; options: string[] } | null;
 
 function getNextStep(a: Answers): Step {
-  if (!a.q21) return { key: 'q21', label: '2.1  Was the intervention status of participants clear at the start of follow-up?', options: ['Y/PY', 'N/PN/NI'] };
+  /* 2.1 label — source: domain-2.json */
+  if (!a.q21) return { key: 'q21', label: '2.1  Were the intervention strategies distinguishable at the time when follow-up would have started in the target trial?', options: ['Y/PY', 'N/PN/NI'] };
   if (a.q21 !== 'Y/PY') {
-    if (!a.q22) return { key: 'q22', label: '2.2  Were almost all outcome events assigned to strategies that were distinguishable at the time of the outcome?', options: ['Y/PY', 'N/PN/NI'] };
+    /* 2.2 label — source: domain-2.json */
+    if (!a.q22) return { key: 'q22', label: '2.2  Did all or nearly all outcome events occur after the intervention and comparator strategies could be distinguished?', options: ['Y/PY', 'N/PN/NI'] };
     if (a.q22 !== 'Y/PY') {
-      if (!a.q23) return { key: 'q23', label: '2.3  Did the authors use an appropriate analysis that accounted for the non-distinguishability of strategies?', options: ['WY/NI', 'N/PN'] };
+      /* 2.3 label — source: domain-2.json */
+      if (!a.q23) return { key: 'q23', label: '2.3  Did the analysis avoid problems arising from intervention strategies that are not distinguishable at the start of follow-up?', options: ['WY/NI', 'N/PN'] };
     }
   }
-  if (!a.q24) return { key: 'q24', label: '2.4  Was the classification of intervention status influenced by knowledge of the outcome or risk of the outcome?', options: ['N/PN', 'WY/NI', 'SY'] };
+  /* 2.4 label — source: domain-2.json */
+  if (!a.q24) return { key: 'q24', label: '2.4  Was classification of intervention status influenced by knowledge of the outcome or risk of the outcome?', options: ['N/PN', 'WY/NI', 'SY'] };
   if (a.q24 === 'SY') return null;
   if (a.q23 === 'N/PN' && a.q24 !== 'N/PN') return null;
-  if (!a.q25) return { key: 'q25', label: '2.5  Were further classification errors in the outcome or its timing likely?', options: ['N/PN', 'Y/PY/NI'] };
+  /* 2.5 label — source: domain-2.json */
+  if (!a.q25) return { key: 'q25', label: '2.5  Were further classification errors (not influenced by knowledge of the outcome or risk of the outcome) likely?', options: ['N/PN', 'Y/PY/NI'] };
   return null;
 }
 

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "5.1",
+    "text": "Could measurement or ascertainment of the outcome have differed between intervention groups?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "5.2",
+    "text": "Were outcome assessors aware of the intervention received by study participants?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "5.3",
+    "text": "Could assessment of the outcome have been influenced by knowledge of the intervention received?",
+    "responseOptions": ["NA","SY","WY","PN","N","NI"],
+    "showIf": "5.2 IN ['Y','PY','NI']"
+  }
+]

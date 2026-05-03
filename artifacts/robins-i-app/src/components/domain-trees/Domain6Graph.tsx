@@ -25,10 +25,14 @@ function computeCombinedOutcome(q62: string, q63: string, q64: string): RiskLeve
 }
 
 const BASE_NODES: Node[] = [
-  { id: 'n61', type: 'q', position: { x: 0, y: 230 }, data: { qid: '6.1', shortLabel: 'Result reported according to pre-specified analysis plan?', active: false } as QData },
-  { id: 'n62', type: 'q', position: { x: 320, y: 140 }, data: { qid: '6.2', shortLabel: 'Result selected from multiple outcome measurements?', active: false } as QData },
-  { id: 'n63', type: 'q', position: { x: 320, y: 280 }, data: { qid: '6.3', shortLabel: 'Result selected from multiple analyses of the data?', active: false } as QData },
-  { id: 'n64', type: 'q', position: { x: 320, y: 420 }, data: { qid: '6.4', shortLabel: 'Result selected from multiple subgroups?', active: false } as QData },
+  /* 6.1 – source: domain-6.json */
+  { id: 'n61', type: 'q', position: { x: 0, y: 230 }, data: { qid: '6.1', shortLabel: 'Was the result reported in accordance with an available, pre-determined analysis plan?', active: false } as QData },
+  /* 6.2 – source: domain-6.json */
+  { id: 'n62', type: 'q', position: { x: 320, y: 140 }, data: { qid: '6.2', shortLabel: 'Is the numerical result being assessed likely to have been selected, on the basis of the results, from multiple outcome measurements (e.g. scales, definitions, time points) within the outcome domain?', active: false } as QData },
+  /* 6.3 – source: domain-6.json */
+  { id: 'n63', type: 'q', position: { x: 320, y: 280 }, data: { qid: '6.3', shortLabel: 'Is the numerical result being assessed likely to have been selected, on the basis of the results, from multiple analyses of the data?', active: false } as QData },
+  /* 6.4 – source: domain-6.json */
+  { id: 'n64', type: 'q', position: { x: 320, y: 420 }, data: { qid: '6.4', shortLabel: 'Is the numerical result being assessed likely to have been selected, on the basis of the results, from multiple subgroups?', active: false } as QData },
   { id: 'o_low',  type: 'o', position: { x: 650, y: 0   }, data: { level: 'low',      label: 'LOW',      active: false } as OData },
   { id: 'o_mod',  type: 'o', position: { x: 650, y: 130 }, data: { level: 'moderate', label: 'MODERATE', active: false } as OData },
   { id: 'o_ser',  type: 'o', position: { x: 650, y: 270 }, data: { level: 'serious',  label: 'SERIOUS',  active: false } as OData },
@@ -78,12 +82,16 @@ function getActivePath(a: Answers): { nodes: Set<string>; edges: Set<string>; ou
 type Step = { key: keyof Answers; label: string; options: string[] } | null;
 
 function getNextStep(a: Answers): Step {
-  if (!a.q61) return { key: 'q61', label: '6.1  Was the result reported according to a pre-specified analysis plan that was finalised before unblinded outcome data were available for analysis?', options: ['Y/PY', 'N/PN/NI'] };
+  /* 6.1 label — source: domain-6.json */
+  if (!a.q61) return { key: 'q61', label: '6.1  Was the result reported in accordance with an available, pre-determined analysis plan?', options: ['Y/PY', 'N/PN/NI'] };
   if (a.q61 === 'Y/PY') return null;
 
-  if (!a.q62) return { key: 'q62', label: '6.2  Were the outcome data analysed using more than one measure or method of aggregation, more than one statistical model, more than one method of handling data or more than one set of adjusted variables?', options: ['N/PN', 'NI', 'Y/PY'] };
-  if (!a.q63) return { key: 'q63', label: '6.3  Were analyses carried out on more than one subset of study participants?', options: ['N/PN', 'NI', 'Y/PY'] };
-  if (!a.q64) return { key: 'q64', label: '6.4  Was the result selected, on the basis of the results, from multiple eligible outcomes, analyses, or subgroups?', options: ['N/PN', 'NI', 'Y/PY'] };
+  /* 6.2 label — source: domain-6.json */
+  if (!a.q62) return { key: 'q62', label: '6.2  Is the numerical result being assessed likely to have been selected, on the basis of the results, from multiple outcome measurements (e.g. scales, definitions, time points) within the outcome domain?', options: ['N/PN', 'NI', 'Y/PY'] };
+  /* 6.3 label — source: domain-6.json */
+  if (!a.q63) return { key: 'q63', label: '6.3  Is the numerical result being assessed likely to have been selected, on the basis of the results, from multiple analyses of the data?', options: ['N/PN', 'NI', 'Y/PY'] };
+  /* 6.4 label — source: domain-6.json */
+  if (!a.q64) return { key: 'q64', label: '6.4  Is the numerical result being assessed likely to have been selected, on the basis of the results, from multiple subgroups?', options: ['N/PN', 'NI', 'Y/PY'] };
 
   return null;
 }

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "3.1",
+    "text": "Did follow‑up in the analysis begin at the start of the intervention strategies being compared?",
+    "responseOptions": ["Y","PY","WN","SN","NI"],
+    "showIf": null
+  },
+  {
+    "id": "3.2",
+    "text": "Were outcome events during a period of follow‑up after the start of the interventions excluded from the analysis?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "3.1 IN ['Y','PY']"
+  },
+  {
+    "id": "3.3",
+    "text": "Was selection of participants into the study (or into the analysis) based on participant characteristics observed after the start of intervention (additional to the situations addressed in 3.1 and 3.2)?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "3.4",
+    "text": "Were the post‑intervention variables that influenced selection likely to be associated with intervention?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "3.3 IN ['Y','PY']"
+  },
+  {
+    "id": "3.5",
+    "text": "Were the post‑intervention variables that influenced selection likely to be influenced by the outcome or a cause of the outcome?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "3.4 IN ['Y','PY']"
+  },
+  {
+    "id": "3.6",
+    "text": "Is it likely that the analysis corrected for all of the potential selection biases identified above?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "(3.1 == 'SN') OR (3.5 IN ['Y','PY'])"
+  },
+  {
+    "id": "3.7",
+    "text": "Did sensitivity analyses demonstrate that the likely impact of the potential selection biases identified above was minimal?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "3.6 IN ['N','PN','NI']"
+  },
+  {
+    "id": "3.8",
+    "text": "Were potential selection biases identified above sufficiently severe that the result should not be included in a quantitative synthesis?",
+    "responseOptions": ["NA","Y","PY","PN","N","NI"],
+    "showIf": "3.7 IN ['N','PN','NI']"
+  }
+]

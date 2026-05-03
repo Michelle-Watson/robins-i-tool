@@ -1,0 +1,26 @@
+[
+  {
+    "id": "6.1",
+    "text": "Was the result reported in accordance with an available, pre-determined analysis plan?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "6.2",
+    "text": "Is the numerical result being assessed likely to have been selected, on the basis of the results, from multiple outcome measurements (e.g. scales, definitions, time points) within the outcome domain?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "6.3",
+    "text": "Is the numerical result being assessed likely to have been selected, on the basis of the results, from multiple analyses of the data?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  },
+  {
+    "id": "6.4",
+    "text": "Is the numerical result being assessed likely to have been selected, on the basis of the results, from multiple subgroups?",
+    "responseOptions": ["Y","PY","PN","N","NI"],
+    "showIf": null
+  }
+]

@@ -16,16 +16,21 @@ type Answers = {
 };
 
 const BASE_NODES: Node[] = [
-  { id: 'n11', type: 'q', position: { x: 0, y: 310 }, data: { qid: '1.1', shortLabel: 'Controlled for all important confounding factors?', active: false } as QData },
-  { id: 'n13_ypy', type: 'q', position: { x: 260, y: 120 }, data: { qid: '1.3', shortLabel: 'Controlled for any post-intervention variables?', active: false } as QData },
-  { id: 'n13_wn', type: 'q', position: { x: 260, y: 400 }, data: { qid: '1.3', shortLabel: 'Controlled for any post-intervention variables?', active: false } as QData },
-  { id: 'n14_sni', type: 'q', position: { x: 260, y: 580 }, data: { qid: '1.4', shortLabel: 'Neg controls / QBA suggest serious uncontrolled confounding?', active: false } as QData },
-  { id: 'n12_top', type: 'q', position: { x: 520, y: 185 }, data: { qid: '1.2', shortLabel: 'Confounders measured validly and reliably?', active: false } as QData },
-  { id: 'n12_wn', type: 'q', position: { x: 520, y: 405 }, data: { qid: '1.2', shortLabel: 'Confounders measured validly and reliably?', active: false } as QData },
-  { id: 'n12_bot', type: 'q', position: { x: 520, y: 600 }, data: { qid: '1.2', shortLabel: 'Confounders measured validly and reliably?', active: false } as QData },
-  { id: 'n14_a', type: 'q', position: { x: 780, y: 35 }, data: { qid: '1.4', shortLabel: 'Neg controls / QBA suggest serious uncontrolled confounding?', active: false } as QData },
-  { id: 'n14_b', type: 'q', position: { x: 780, y: 210 }, data: { qid: '1.4', shortLabel: 'Neg controls / QBA suggest serious uncontrolled confounding?', active: false } as QData },
-  { id: 'n14_wn', type: 'q', position: { x: 780, y: 390 }, data: { qid: '1.4', shortLabel: 'Neg controls / QBA suggest serious uncontrolled confounding?', active: false } as QData },
+  /* 1.1 – source: domain-1a.json */
+  { id: 'n11', type: 'q', position: { x: 0, y: 310 }, data: { qid: '1.1', shortLabel: 'Did the authors control for all the important confounding factors for which this was necessary?', active: false } as QData },
+  /* 1.3 – source: domain-1a.json */
+  { id: 'n13_ypy', type: 'q', position: { x: 260, y: 120 }, data: { qid: '1.3', shortLabel: 'Did the authors control for any post-intervention variables that could have been affected by the intervention?', active: false } as QData },
+  { id: 'n13_wn', type: 'q', position: { x: 260, y: 400 }, data: { qid: '1.3', shortLabel: 'Did the authors control for any post-intervention variables that could have been affected by the intervention?', active: false } as QData },
+  /* 1.4 – source: domain-1a.json */
+  { id: 'n14_sni', type: 'q', position: { x: 260, y: 580 }, data: { qid: '1.4', shortLabel: 'Did the use of negative controls, quantitative bias analysis, or other considerations, suggest serious uncontrolled confounding?', active: false } as QData },
+  /* 1.2 – source: domain-1a.json */
+  { id: 'n12_top', type: 'q', position: { x: 520, y: 185 }, data: { qid: '1.2', shortLabel: 'Were confounding factors that were controlled for (and for which control was necessary) measured validly and reliably by the variables available in this study?', active: false } as QData },
+  { id: 'n12_wn', type: 'q', position: { x: 520, y: 405 }, data: { qid: '1.2', shortLabel: 'Were confounding factors that were controlled for (and for which control was necessary) measured validly and reliably by the variables available in this study?', active: false } as QData },
+  { id: 'n12_bot', type: 'q', position: { x: 520, y: 600 }, data: { qid: '1.2', shortLabel: 'Were confounding factors that were controlled for (and for which control was necessary) measured validly and reliably by the variables available in this study?', active: false } as QData },
+  /* 1.4 repeated positions – source: domain-1a.json */
+  { id: 'n14_a', type: 'q', position: { x: 780, y: 35 }, data: { qid: '1.4', shortLabel: 'Did the use of negative controls, quantitative bias analysis, or other considerations, suggest serious uncontrolled confounding?', active: false } as QData },
+  { id: 'n14_b', type: 'q', position: { x: 780, y: 210 }, data: { qid: '1.4', shortLabel: 'Did the use of negative controls, quantitative bias analysis, or other considerations, suggest serious uncontrolled confounding?', active: false } as QData },
+  { id: 'n14_wn', type: 'q', position: { x: 780, y: 390 }, data: { qid: '1.4', shortLabel: 'Did the use of negative controls, quantitative bias analysis, or other considerations, suggest serious uncontrolled confounding?', active: false } as QData },
   { id: 'o_low',  type: 'o', position: { x: 1060, y: 50  }, data: { level: 'low-except', label: 'LOW*\n(except uncontrolled confounding)', active: false } as OData },
   { id: 'o_mod',  type: 'o', position: { x: 1060, y: 255 }, data: { level: 'moderate',   label: 'MODERATE', active: false } as OData },
   { id: 'o_ser',  type: 'o', position: { x: 1060, y: 420 }, data: { level: 'serious',    label: 'SERIOUS',  active: false } as OData },
@@ -109,12 +114,14 @@ function getActivePath(a: Answers): { nodes: Set<string>; edges: Set<string>; ou
 }
 
 type Step = { key: keyof Answers; label: string; options: string[] } | null;
+/* QLabels — full question text from domain-1a.json, prefixed with question ID for the bottom panel */
 const QLabels = {
-  q11: '1.1  Did the authors control for all the important confounding factors for which this was necessary?',
-  q13: '1.3  Did the authors control for any post-intervention variables that could have been affected by the intervention?',
+  q11:     '1.1  Did the authors control for all the important confounding factors for which this was necessary?',
+  q13:     '1.3  Did the authors control for any post-intervention variables that could have been affected by the intervention?',
   q12_top: '1.2  Were confounding factors that were controlled for (and for which control was necessary) measured validly and reliably by the variables available in this study?',
-  q12_bot: '1.2  Were confounding factors measured validly and reliably?',
-  q14: '1.4  Did the use of negative controls, quantitative bias analysis, or other considerations, suggest serious uncontrolled confounding?',
+  /* q12_bot uses the same full text as q12_top — no abbreviation */
+  q12_bot: '1.2  Were confounding factors that were controlled for (and for which control was necessary) measured validly and reliably by the variables available in this study?',
+  q14:     '1.4  Did the use of negative controls, quantitative bias analysis, or other considerations, suggest serious uncontrolled confounding?',
 };
 
 function getNextStep(a: Answers): Step {
