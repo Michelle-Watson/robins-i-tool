@@ -148,7 +148,7 @@ export default function Domain6Graph({ onOutcome, onAnswersChange, initialAnswer
   };
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', fontFamily: 'system-ui,sans-serif', background: '#fff1f2' }}>
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', fontFamily: 'system-ui,sans-serif', background: '#fff1f2', overflow: 'hidden' }}>
       <div style={{ background: '#881337', color: '#fff', padding: '12px 20px', flexShrink: 0 }}>
         <div style={{ fontSize: 11, letterSpacing: 2, opacity: 0.55, textTransform: 'uppercase' }}>Domain 6</div>
         <div style={{ fontSize: 18, fontWeight: 700, marginTop: 2 }}>Bias in selection of the reported result</div>
@@ -161,7 +161,7 @@ export default function Domain6Graph({ onOutcome, onAnswersChange, initialAnswer
           <Controls showInteractive={false} />
         </ReactFlow>
       </div>
-      <div style={{ borderTop: '1px solid #e2e8f0', background: '#fff', padding: '14px 20px', flexShrink: 0, minHeight: 80 }}>
+      <div style={{ borderTop: '1px solid #e2e8f0', background: '#fff', padding: '14px 20px', flexShrink: 0, overflowY: 'auto', maxHeight: '40%' }}>
         {counts.answered > 0 && !outcome && (
           <div style={{ fontSize: 11, marginBottom: 10, display: 'flex', gap: 12 }}>
             <span style={{ color: '#16a34a', fontWeight: 600 }}>N/PN: {counts.npn}</span>

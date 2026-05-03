@@ -251,7 +251,7 @@ export default function Domain3Graph({ onOutcome, onAnswersChange, initialAnswer
   const subB = useMemo(() => getSubB(answers), [answers]);
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', fontFamily: 'system-ui,sans-serif', background: '#fff7ed' }}>
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', fontFamily: 'system-ui,sans-serif', background: '#fff7ed', overflow: 'hidden' }}>
       <div style={{ background: '#7c2d12', color: '#fff', padding: '12px 20px', flexShrink: 0 }}>
         <div style={{ fontSize: 11, letterSpacing: 2, opacity: 0.55, textTransform: 'uppercase' }}>Domain 3</div>
         <div style={{ fontSize: 18, fontWeight: 700, marginTop: 2 }}>Bias due to deviations from intended interventions</div>
@@ -264,7 +264,7 @@ export default function Domain3Graph({ onOutcome, onAnswersChange, initialAnswer
           <Controls showInteractive={false} />
         </ReactFlow>
       </div>
-      <div style={{ borderTop: '1px solid #e2e8f0', background: '#fff', padding: '14px 20px', flexShrink: 0, minHeight: 80 }}>
+      <div style={{ borderTop: '1px solid #e2e8f0', background: '#fff', padding: '14px 20px', flexShrink: 0, overflowY: 'auto', maxHeight: '40%' }}>
         {(subA || subB) && (
           <div style={{ display: 'flex', gap: 12, marginBottom: 10, fontSize: 11 }}>
             {subA && <span style={{ background: OUTCOME_C[subA].bg, color: OUTCOME_C[subA].text, border: `1px solid ${OUTCOME_C[subA].border}`, borderRadius: 6, padding: '2px 10px', fontWeight: 700 }}>A: {subA.toUpperCase()}</span>}

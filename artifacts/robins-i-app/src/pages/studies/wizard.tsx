@@ -105,8 +105,8 @@ export default function AssessmentWizard() {
         </div>
       </div>
 
-      <div className="flex-1 flex overflow-hidden">
-        <div className="flex-1 relative border-r">
+      <div className="flex-1 flex overflow-hidden min-h-0">
+        <div className="flex-1 relative border-r h-full overflow-hidden">
           {/* Note: I'll need to modify the graph components to accept these props */}
           <GraphComponent 
             onOutcome={setOutcome} 
