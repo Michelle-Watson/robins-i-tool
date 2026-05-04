@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
+// import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
 // ---------------------------------------------------------------------------
@@ -41,9 +41,12 @@ const isReplit =
 
 export default defineConfig({
   base: basePath,
+  css: {
+    transformer: 'postcss',   // 👈 Use PostCSS instead of lightningcss
+  },
   plugins: [
     react(),
-    tailwindcss(),
+    // tailwindcss(),
     // Runtime error overlay — only useful in the Replit dev environment
     ...(isReplit && process.env.NODE_ENV !== "production"
       ? [(await import("@replit/vite-plugin-runtime-error-modal")).default()]
