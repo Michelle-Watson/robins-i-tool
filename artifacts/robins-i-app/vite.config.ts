@@ -11,8 +11,7 @@ import path from "path";
 // those vars are not present — and we don't need them because:
 //   • PORT  is only used by the Vite dev/preview server, not by `vite build`
 //   • BASE_PATH defaults to "/" on Vercel (the app is served at the root)
-const isExternalBuild =
-  process.env.VERCEL === "1" || process.env.CI === "true";
+const isExternalBuild = process.env.VERCEL === "1" || process.env.CI === "true";
 
 // PORT — only required in the Replit dev environment
 const rawPort = process.env.PORT;
@@ -47,9 +46,7 @@ export default defineConfig({
     tailwindcss(),
     // Runtime error overlay — only useful in the Replit dev environment
     ...(isReplit && process.env.NODE_ENV !== "production"
-      ? [
-          (await import("@replit/vite-plugin-runtime-error-modal")).default(),
-        ]
+      ? [(await import("@replit/vite-plugin-runtime-error-modal")).default()]
       : []),
     // Replit-only dev plugins
     ...(isReplit && process.env.NODE_ENV !== "production"

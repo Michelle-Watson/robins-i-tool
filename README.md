@@ -161,7 +161,7 @@ robins-i-tool/
 ### Prerequisites
 
 - Node.js 18+
-- pnpm (see [`package.json`](https://github.com/Michelle-Watson/robins-i-tool/blob/main/package.json) — the `preinstall` script enforces pnpm)
+- pnpm (see [`package.json`](https://github.com/Michelle-Watson/robins-i-tool/blob/main/package.json) — the `preinstall` script enforces pnpm). Can download with iwr https://get.pnpm.io/install.ps1 -useb | iex` in Windows PowerSheel as an Admin
 - A Supabase project (or local PostgreSQL 15+)
 - Render and Vercel accounts (for deployment only)
 
