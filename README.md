@@ -245,26 +245,4 @@ The shared packages in `lib/` (`api-spec`, `api-zod`, `api-client-react`, `db`) 
 
 ### 📝 About the `.env.example` file
 
-Your project doesn't have a `.env.example` yet. Based on the code, here's the one you should create at the root of your repository:
-
-**`.env.example`** (for local development reference)
-
-```python
-# ── Database ─────────────────────────────────────────────────
-# Supabase pooled connection string (Session pooler, port 5432)
-# Copy from Supabase → Database → Settings → Connection pooling
-DATABASE_URL=postgresql://postgres.zgxmbifyjdzhuksiyxqs:YOUR_PASSWORD@aws-1-us-west-2.pooler.supabase.com:5432/postgres
-
-# ── Session ─────────────────────────────────────────────────
-# Any random string for session encryption (dev only)
-SESSION_SECRET=your-secret-here
-
-# ── Server ──────────────────────────────────────────────────
-PORT=10000
-NODE_ENV=development
-
-# ── Frontend (Vercel production only) ────────────────────────
-VITE_API_BASE_URL=https://robins-i-tool.onrender.com
-```
-
 The frontend doesn't require a `.env` for local development because `main.tsx` passes `null` to `setBaseUrl()` when `VITE_API_BASE_URL` is absent, which causes the API client to use relative `/api/*` URLs — this works through the Replit proxy or Vite's dev server proxy.
