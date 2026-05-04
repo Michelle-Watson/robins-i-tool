@@ -20,22 +20,22 @@ active path as you answer questions.
 
 ### Domains Implemented
 
-| Domain | Name | File | Accent |
-|--------|------|------|--------|
-| 1A | Confounding — Intention-to-treat | `Domain1AGraph.tsx` | Blue |
-| 1B | Confounding — Per-protocol | `Domain1BGraph.tsx` | Purple |
-| 2 | Classification of interventions | `Domain2Graph.tsx` | Teal |
-| 3 | Deviations from intended interventions | `Domain3Graph.tsx` | Orange |
-| 4 | Missing data | `Domain4Graph.tsx` | Amber |
-| 5 | Measurement of outcomes | `Domain5Graph.tsx` | Indigo |
-| 6 | Selection of the reported result | `Domain6Graph.tsx` | Rose |
+| Domain | Name                                   | File                | Accent |
+| ------ | -------------------------------------- | ------------------- | ------ |
+| 1A     | Confounding — Intention-to-treat       | `Domain1AGraph.tsx` | Blue   |
+| 1B     | Confounding — Per-protocol             | `Domain1BGraph.tsx` | Purple |
+| 2      | Classification of interventions        | `Domain2Graph.tsx`  | Teal   |
+| 3      | Deviations from intended interventions | `Domain3Graph.tsx`  | Orange |
+| 4      | Missing data                           | `Domain4Graph.tsx`  | Amber  |
+| 5      | Measurement of outcomes                | `Domain5Graph.tsx`  | Indigo |
+| 6      | Selection of the reported result       | `Domain6Graph.tsx`  | Rose   |
 
 ### Canvas Mockup Preview URLs
 
 Base domain: `https://5f82d8a1-1045-4a1e-a1e9-ed71adbb780e-00-3n3mzqx7qdcgg.picard.replit.dev`
 
-| Component | Preview Path |
-|-----------|-------------|
+| Component     | Preview Path                                   |
+| ------------- | ---------------------------------------------- |
 | Domain1AGraph | `/__mockup/preview/domain-trees/Domain1AGraph` |
 | Domain1BGraph | `/__mockup/preview/domain-trees/Domain1BGraph` |
 | Domain2Graph  | `/__mockup/preview/domain-trees/Domain2Graph`  |
@@ -49,17 +49,19 @@ Base domain: `https://5f82d8a1-1045-4a1e-a1e9-ed71adbb780e-00-3n3mzqx7qdcgg.pica
 ## Key Algorithm Notes (traced from PDF images)
 
 ### Domain 1A (Variant A — Intention-to-treat)
+
 - **Used when** C4 = No (no deviation from intended intervention analysed)
-- **Outcomes**: LOW* (yellow), MODERATE, SERIOUS, CRITICAL
-- No pure "LOW" in 1A — best possible is LOW* (except for uncontrolled confounding)
+- **Outcomes**: LOW\* (yellow), MODERATE, SERIOUS, CRITICAL
+- No pure "LOW" in 1A — best possible is LOW\* (except for uncontrolled confounding)
 - **Critical fix**: From `n12_top`, `SN/NI` goes DIRECTLY to SERIOUS without asking Q1.4
   (confounders not validly measured → bias is already serious, no need to check neg controls)
 - `1.1=SN/NI` path: Q1.4 is asked BEFORE Q1.2 (reversed from question numbering)
 - Q1.4=Y/PY on the SN/NI path → CRITICAL
 
 ### Domain 1B (Variant B — Per-protocol)
+
 - **Used when** C4 = Yes (effects of assignment to intervention analysed)
-- **Outcomes**: LOW (pure green), LOW* (yellow), MODERATE, SERIOUS, CRITICAL
+- **Outcomes**: LOW (pure green), LOW\* (yellow), MODERATE, SERIOUS, CRITICAL
 - Domain 1B has FIVE distinct outcomes; 1A has only four (no pure LOW)
 - **CRITICAL IS reachable from 1.1=Y/PY path** via SN/NI shortcuts to the shared bottom Q1.5
   - `1.2=SN/NI` → Q1.5 bot → Y/PY: CRITICAL
@@ -67,16 +69,18 @@ Base domain: `https://5f82d8a1-1045-4a1e-a1e9-ed71adbb780e-00-3n3mzqx7qdcgg.pica
   - `1.3_mid=SN/NI` → Q1.5 bot → Y/PY: CRITICAL
 - Three Q1.5 instances (top/mid/bot), each feeding different outcomes:
   - Top (from 1.3_top=Y/PY): LOW (N/PN) | SERIOUS (Y/PY)
-  - Mid (from 1.3_mid=Y/PY/WN): LOW* (N/PN) | MODERATE (Y/PY)
+  - Mid (from 1.3_mid=Y/PY/WN): LOW\* (N/PN) | MODERATE (Y/PY)
   - Bot (shared bad path): SERIOUS (N/PN) | CRITICAL (Y/PY)
 
 ### Domain 2 (Classification of interventions)
+
 - Three tiers of Q2.4 and Q2.5 (top/mid/bot) reflecting progressively worse paths
 - `2.1=Y/PY` and `2.2=Y/PY` both converge on Q2.4 TOP (shared node)
 - `SY` from any Q2.4 tier → CRITICAL direct (no Q2.5 needed)
 - Q2.5 top → LOW/MODERATE; mid → MODERATE/SERIOUS; bot → SERIOUS/CRITICAL
 
 ### Domain 3 (Deviations from intended interventions)
+
 - **Two independent sub-graphs**: A (follow-up timing) and B (selection characteristics)
 - Sub-graphs are assessed in parallel; combined as "worst of A and B"
 - If both LOW → FINAL: LOW; if worst MODERATE → FINAL: MODERATE
@@ -85,6 +89,7 @@ Base domain: `https://5f82d8a1-1045-4a1e-a1e9-ed71adbb780e-00-3n3mzqx7qdcgg.pica
 - Q3.8=Y/PY → CRITICAL; Q3.8=N/PN/NI → SERIOUS
 
 ### Domain 4 (Missing data) — Most Complex Domain
+
 - Entry: Q4.1–4.3 grouped ("all Y/PY" → LOW direct)
 - **Q4.4 splits** into Complete Case (Y/PY/NI) vs Non-Complete Case (N/PN) paths
 - **Complete Case path**: Q4.5 → Q4.6 → Q4.11 (a, b, or c)
@@ -100,6 +105,7 @@ Base domain: `https://5f82d8a1-1045-4a1e-a1e9-ed71adbb780e-00-3n3mzqx7qdcgg.pica
   - Q4.10=Y/PY → LOW; Q4.10=SN → CRITICAL
 
 ### Domain 5 (Measurement of outcomes)
+
 - Three paths from Q5.1: N/PN (LOW possible), NI (MODERATE possible), Y/PY (SERIOUS direct)
 - **Important**: On the TOP path (5.1=N/PN), Q5.3=SY still gives MODERATE (not SERIOUS)
   Both WY/NI and SY go to MODERATE on the top path (confirmed from PDF image)
@@ -107,6 +113,7 @@ Base domain: `https://5f82d8a1-1045-4a1e-a1e9-ed71adbb780e-00-3n3mzqx7qdcgg.pica
 - Q5.1=Y/PY → SERIOUS immediately (no further questions)
 
 ### Domain 6 (Selection of the reported result)
+
 - Q6.1=Y/PY → LOW immediately
 - Q6.1=N/PN/NI → ask Q6.2, Q6.3, Q6.4 (assessed as a group, not sequentially)
 - Outcome is computed by counting Y/PY and NI across Q6.2–6.4:
@@ -143,6 +150,7 @@ src/components/mockups/domain-trees/
 5. Component uses `useMemo` to merge `active` flags into nodes/edges on each render
 
 **shared.tsx exports:**
+
 - `QuestionNode` — rounded box with numbered badge; fades when inactive
 - `OutcomeNode` — coloured outcome box; glows when active; has both target AND source
   handles (source handle is invisible, needed for Domain 3 intermediate results)
@@ -160,13 +168,13 @@ the mockup phase is complete and the user has verified all algorithm graphs are 
 
 ## ROBINS-I V2 Outcome Levels
 
-| Level | CSS | Meaning |
-|-------|-----|---------|
-| `low` | Green (#dcfce7) | LOW RISK OF BIAS |
+| Level        | CSS              | Meaning                                                |
+| ------------ | ---------------- | ------------------------------------------------------ |
+| `low`        | Green (#dcfce7)  | LOW RISK OF BIAS                                       |
 | `low-except` | Yellow (#fef9c3) | LOW except for concerns about uncontrolled confounding |
-| `moderate` | Orange (#fed7aa) | MODERATE RISK OF BIAS |
-| `serious` | Red (#fecaca) | SERIOUS RISK OF BIAS |
-| `critical` | Black (#1c1917) | CRITICAL RISK OF BIAS |
+| `moderate`   | Orange (#fed7aa) | MODERATE RISK OF BIAS                                  |
+| `serious`    | Red (#fecaca)    | SERIOUS RISK OF BIAS                                   |
+| `critical`   | Black (#1c1917)  | CRITICAL RISK OF BIAS                                  |
 
 ---
 
@@ -188,8 +196,130 @@ the mockup phase is complete and the user has verified all algorithm graphs are 
 ## Next Phase: Main App
 
 After user approves the algorithm mockups:
+
 1. Build main ROBINS-I app with study/outcome tracking
 2. Implement the 7-domain assessment workflow
 3. Add database persistence (PostgreSQL via Drizzle)
 4. Add user authentication (Replit Auth or Clerk)
 5. Add reporting/export functionality
+
+---
+
+OLD README
+
+# ROBINS-I V2 Assessment Tool
+
+Michelle Watson
+
+## Overview
+
+This repository contains a ROBINS-I V2 risk-of-bias assessment application for study tracking, domain-level assessments, and risk visualization.
+
+The system is split into three parts:
+
+- **Frontend**: Vite + React application deployed on Vercel
+- **API**: Node + Express service deployed on Render
+- **Database**: PostgreSQL hosted on Supabase
+
+The application supports the ROBINS-I V2 workflow end to end:
+
+- Study tracker
+- 7-domain assessment wizard
+- Interactive decision trees
+- Risk summaries and visualization
+- Distinct Domain 1 variants for ITT and per-protocol studies
+
+## Local Development
+
+The app is designed for the Replit workspace used during development.
+
+### Frontend
+
+The frontend reads `VITE_API_BASE_URL` when deployed outside Replit. When that variable is absent, API calls remain relative and work through the Replit proxy.
+
+### API
+
+The API expects `DATABASE_URL` and `SESSION_SECRET`.
+
+### Database
+
+The schema lives in `lib/db` and is managed with Drizzle.
+
+## Deployment Architecture
+
+### Vercel
+
+The frontend is deployed to Vercel.
+
+Environment variable:
+
+- `VITE_API_BASE_URL` = deployed Render API URL
+
+Build settings:
+
+- Build command: `pnpm --filter @workspace/robins-i-app run build`
+- Output directory: `artifacts/robins-i-app/dist/public`
+- Install command: `pnpm install --frozen-lockfile`
+
+### Render
+
+The API is deployed to Render as a Node web service.
+
+Environment variables:
+
+- `DATABASE_URL` = Supabase connection string
+- `SESSION_SECRET` = random secret string
+- `NODE_ENV` = `production`
+- `PORT` = `10000`
+
+Build command:
+
+- `pnpm install --frozen-lockfile && pnpm --filter @workspace/api-server run build`
+
+Start command:
+
+- `node --enable-source-maps artifacts/api-server/dist/index.mjs`
+
+### Supabase
+
+Supabase provides the PostgreSQL database.
+
+After creating the Supabase project, the schema must be applied once from the SQL editor.
+
+The database includes:
+
+- `studies`
+- `domain_assessments`
+- enum types for study variant, domain identifier, and risk level
+
+## Database Setup
+
+1. Create a Supabase project.
+2. Open the SQL editor.
+3. Run the schema SQL generated by Drizzle.
+4. Add the resulting connection string to Render as `DATABASE_URL`.
+
+## Vercel Setup
+
+1. Import the GitHub repository.
+2. Set the root directory to the repository root.
+3. Add `VITE_API_BASE_URL` using the Render API URL.
+4. Deploy.
+
+## Render Setup
+
+1. Create a new Web Service from the same GitHub repository.
+2. Use the build and start commands listed above.
+3. Add the environment variables listed above.
+4. Deploy.
+
+## Notes
+
+- Domain 1A is used for ITT studies.
+- Domain 1B is used for per-protocol studies.
+- A study uses exactly one Domain 1 variant.
+- The application stores domain assessments separately from studies.
+
+## Status
+
+This project is actively developed in the Replit workspace and can be deployed independently on Vercel, Render, and Supabase.
